@@ -389,77 +389,57 @@
   }
   .service-card p{ color: var(--ink-dim); font-size: 0.92rem; }
 
-  /* ---------- PROJECTS ---------- */
-  .projects{
-    display:flex; flex-direction:column; gap: 26px;
-  }
-  .project-card{
+  /* ---------- HİZMET VERDİĞİMİZ FİRMALAR ---------- */
+  .clients-grid{
     display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .client-card{
     background: var(--card);
     border: 1px solid var(--line);
     border-radius: 18px;
-    overflow:hidden;
-  }
-  .project-card:nth-child(even) .project-shot{ order: 2; }
-  .project-shot{
-    background:
-      repeating-linear-gradient(135deg, rgba(92,124,250,0.05) 0 2px, transparent 2px 18px),
-      linear-gradient(160deg, var(--navy-soft), var(--navy));
-    min-height: 280px;
-    display:flex; align-items:center; justify-content:center;
-    flex-direction:column; gap:10px;
-    border-right: 1px solid var(--line);
-    padding: 24px;
-  }
-  .project-card:nth-child(even) .project-shot{ border-right:none; border-left: 1px solid var(--line); }
-  .shot-badge{
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    color: var(--ink-dim);
-    border: 1px dashed rgba(245,246,250,0.2);
-    padding: 10px 16px;
-    border-radius: 8px;
+    padding: 44px 36px;
     text-align:center;
+    display:flex; flex-direction:column; align-items:center;
+    transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
   }
-  .project-shot-img{ padding:0; }
-  .project-shot-img img{
-    width:100%; height:100%;
-    object-fit: cover;
-    object-position: top;
+  .client-card:hover{
+    transform: translateY(-4px);
+    border-color: rgba(92,124,250,0.32);
+    background: rgba(255,255,255,0.05);
   }
-  .project-info{
-    padding: 38px 36px;
-    display:flex; flex-direction:column; justify-content:center;
+  .client-logo{
+    width: 88px; height:88px;
+    border-radius: 50%;
+    margin-bottom: 22px;
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+    background: linear-gradient(155deg, var(--navy-soft), var(--navy-elevated));
+    border: 1px solid var(--line);
   }
-  .project-tag{
+  .client-logo img{ width:100%; height:100%; object-fit:cover; }
+  .client-logo .initials{
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--accent);
+  }
+  .client-tag{
     font-family: var(--font-mono);
     font-size: 0.72rem;
     color: var(--accent);
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
-  .project-info h3{
+  .client-card h3{
     font-family: var(--font-display);
-    font-size: 1.4rem;
+    font-size: 1.25rem;
     font-weight: 700;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
-  .project-info p{ color: var(--ink-dim); font-size: 0.95rem; margin-bottom: 18px; }
-  .project-feats{
-    display:flex; flex-wrap:wrap; gap: 9px;
-  }
-  .project-feats span{
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    color: var(--ink);
-    background: rgba(255,255,255,0.05);
-    border: 1px solid var(--line);
-    padding: 6px 11px;
-    border-radius: 999px;
-  }
+  .client-card p{ color: var(--ink-dim); font-size: 0.92rem; max-width: 320px; }
 
   /* ---------- ABOUT ---------- */
   .about{
@@ -588,9 +568,7 @@
     .hero-cinema{ padding: 110px 20px 80px; }
     .about{ grid-template-columns: 1fr; }
     .about-visual{ max-width: 260px; margin: 0 auto; }
-    .project-card{ grid-template-columns: 1fr; }
-    .project-card:nth-child(even) .project-shot{ order: -1; border-left:none; border-bottom: 1px solid var(--line); }
-    .project-shot{ min-height: 200px; border-right:none; border-bottom: 1px solid var(--line); }
+    .clients-grid{ grid-template-columns: 1fr; }
   }
 
   @media (max-width: 720px){
@@ -612,7 +590,6 @@
     .services-grid{ grid-template-columns: 1fr; }
     .contact-box{ padding: 44px 24px; }
     .wrap{ padding: 0 20px; }
-    .project-info{ padding: 28px 24px; }
   }
 </style>
 </head>
@@ -733,46 +710,28 @@
     </div>
   </section>
 
-  <!-- PROJELER -->
+  <!-- FİRMALAR -->
   <section class="pad" id="projeler">
     <div class="wrap">
       <div class="section-head reveal">
-        <div class="eyebrow"><span class="dot"></span>Projeler</div>
-        <h2>Kağıt üzerinde kalmayan, gerçekten kullanılan sistemler</h2>
-        <p>KEB Studio'nun kurulmasından önce, aynı yaklaşımla hayata geçirdiğimiz iki canlı proje.</p>
+        <div class="eyebrow"><span class="dot"></span>Referanslar</div>
+        <h2>Hizmet verdiğimiz firmalar</h2>
+        <p>KEB Studio'nun kurulmasından önce, aynı yaklaşımla sistem kurduğumuz iki firma.</p>
       </div>
 
-      <div class="projects">
-        <div class="project-card reveal">
-          <div class="project-shot">
-            <div class="shot-badge">Ekran görüntüsü<br>yakında eklenecek</div>
-          </div>
-          <div class="project-info">
-            <div class="project-tag">B2B Bayi Otomasyonu</div>
-            <h3>Çukurova Bayi Platformu</h3>
-            <p>Bir oto yedek parça bayi ağı için kurulan tam kapsamlı yönetim sistemi. Bayiler ürün arayıp sipariş verir, admin tarafı stok ve cari hesabı anlık takip eder.</p>
-            <div class="project-feats">
-              <span>Marka/Model/Yıl ürün arama</span>
-              <span>Sipariş & cari hesap takibi</span>
-              <span>WhatsApp entegrasyonu</span>
-              <span>Kredi limiti kontrolü</span>
-            </div>
-          </div>
+      <div class="clients-grid">
+        <div class="client-card reveal">
+          <div class="client-logo"><span class="initials">ÇO</span></div>
+          <div class="client-tag">B2B Bayi Otomasyonu</div>
+          <h3>Çukurova Otomotiv</h3>
+          <p>Oto yedek parça bayi ağı için ürün arama, sipariş ve cari hesap takibi yapan tam kapsamlı yönetim sistemi.</p>
         </div>
 
-        <div class="project-card reveal">
-          <div class="project-shot project-shot-img">
-            <img src="spraybox-shot.jpg" alt="Spraybox e-ticaret sitesi ekran görüntüsü" loading="lazy">
-          </div>
-            <h3>Spraybox</h3>
-            <p>Otomotiv kimyasalları markası Spraybox için hazırlanan e-ticaret sitesi. Kurumsal bayilerin ve bireysel müşterilerin aynı platform üzerinden sipariş verebilmesi hedeflendi.</p>
-            <div class="project-feats">
-              <span>Ürün kategorileri</span>
-              <span>Marka kimliğine uygun tasarım</span>
-              <span>WhatsApp sipariş desteği</span>
-              <span>Mobil uyumlu arayüz</span>
-            </div>
-          </div>
+        <div class="client-card reveal">
+          <div class="client-logo"><img src="spraybox-logo.png" alt="Spraybox"></div>
+          <div class="client-tag">B2B / B2C E-Ticaret</div>
+          <h3>Spraybox</h3>
+          <p>Otomotiv kimyasalları markası için, kurumsal bayilerin ve bireysel müşterilerin aynı platformdan sipariş verebildiği e-ticaret sitesi.</p>
         </div>
       </div>
     </div>
