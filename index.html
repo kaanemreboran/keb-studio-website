@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KEB Studio — Web Sitesi, E-Ticaret ve İş Otomasyonu Çözümleri</title>
+<meta name="description" content="KEB Studio: Yapay zeka destekli geliştirme yaklaşımıyla işletmeniz için hızlı, uygun maliyetli web siteleri, e-ticaret çözümleri ve bayi/otomasyon panelleri.">
+<link rel="icon" href="keb-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-deep: #12152A;
+    --navy: #181C32;
+    --navy-soft: #21243B;
+    --navy-elevated: #2A2D3C;
+    --accent: #5C7CFA;
+    --accent-dim: #3A4B99;
+    --ink: #F5F6FA;
+    --ink-dim: #9A9EB0;
+    --line: rgba(245,246,250,0.09);
+    --card: rgba(255,255,255,0.03);
+
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    --radius: 14px;
+    --maxw: 1160px;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background: var(--navy-deep);
+    color: var(--ink);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background:
+      radial-gradient(circle at 12% 6%, rgba(92,124,250,0.10), transparent 45%),
+      radial-gradient(circle at 90% 32%, rgba(92,124,250,0.05), transparent 40%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  img{ max-width:100%; display:block; }
+  a{ color:inherit; text-decoration:none; }
+  ul{ list-style:none; }
+  section{ position:relative; z-index:1; }
+
+  .wrap{
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  ::selection{ background: var(--accent); color: var(--navy-deep); }
+
+  a:focus-visible, button:focus-visible{
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior:auto !important; }
+  }
+
+  /* ---------- HEADER ---------- */
+  header{
+    position: fixed; top:0; left:0; right:0;
+    z-index: 50;
+    background: rgba(18,21,42,0.72);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    height: 72px;
+  }
+  .logo{
+    display:flex; align-items:center;
+  }
+  .logo img{ height: 30px; width:auto; }
+
+  .nav-links{
+    display:flex; align-items:center; gap: 34px;
+    font-size: 0.94rem;
+    color: var(--ink-dim);
+  }
+  .nav-links a{ transition: color 0.2s ease; position:relative; }
+  .nav-links a:hover{ color: var(--ink); }
+  .nav-cta{
+    padding: 10px 22px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--navy-deep) !important;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .nav-cta:hover{ transform: translateY(-1px); box-shadow: 0 8px 22px rgba(92,124,250,0.28); }
+
+  .menu-btn{
+    display:none;
+    background:none; border:none; color:var(--ink);
+    width: 40px; height:40px;
+    flex-direction:column; align-items:center; justify-content:center; gap:5px;
+    cursor:pointer;
+  }
+  .menu-btn span{ width:22px; height:2px; background:var(--ink); border-radius:2px; transition: all 0.25s ease; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding: 168px 0 110px;
+    display:grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 56px;
+    align-items:center;
+    position:relative;
+  }
+  .hero-watermark{
+    position:absolute;
+    top: 40px; right: -60px;
+    width: 620px;
+    opacity: 0.05;
+    pointer-events:none;
+    z-index:0;
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:9px;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(92,124,250,0.09);
+    border: 1px solid rgba(92,124,250,0.28);
+    padding: 7px 14px;
+    border-radius: 999px;
+    margin-bottom: 26px;
+  }
+  .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+
+  .hero h1{
+    font-family: var(--font-display);
+    font-size: clamp(2.3rem, 4.6vw, 3.6rem);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    margin-bottom: 22px;
+  }
+  .hero h1 em{
+    font-style: normal;
+    background: linear-gradient(100deg, var(--ink), var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero p.lead{
+    font-size: 1.08rem;
+    color: var(--ink-dim);
+    max-width: 480px;
+    margin-bottom: 34px;
+  }
+  .hero-ctas{ display:flex; gap:14px; flex-wrap:wrap; }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding: 14px 26px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    cursor:pointer; border:none;
+  }
+  .btn-primary{
+    background: var(--ink);
+    color: var(--navy-deep);
+  }
+  .btn-primary:hover{ transform: translateY(-2px); box-shadow: 0 10px 26px rgba(92,124,250,0.32); }
+  .btn-ghost{
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--ink);
+  }
+  .btn-ghost:hover{ border-color: rgba(245,246,250,0.35); background: rgba(255,255,255,0.03); }
+
+  /* signature: live-panel mockup */
+  .panel-mock{
+    background: linear-gradient(165deg, var(--navy-soft), var(--navy));
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 22px;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.45);
+    position:relative;
+  }
+  .panel-mock::after{
+    content:"";
+    position:absolute; inset:-1px;
+    border-radius: 16px;
+    padding:1px;
+    background: linear-gradient(135deg, rgba(92,124,250,0.35), transparent 40%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+    pointer-events:none;
+  }
+  .panel-top{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom: 18px;
+  }
+  .panel-dots{ display:flex; gap:6px; }
+  .panel-dots span{ width:9px; height:9px; border-radius:50%; background: rgba(245,246,250,0.18); }
+  .panel-tag{
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--ink-dim);
+    display:flex; align-items:center; gap:6px;
+  }
+  .panel-tag .live{
+    width:6px; height:6px; border-radius:50%; background: var(--accent);
+    animation: pulse 1.8s infinite;
+  }
+  @keyframes pulse{ 0%,100%{ opacity:1; } 50%{ opacity:0.35; } }
+
+  .panel-grid{
+    display:grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    margin-bottom: 14px;
+  }
+  .panel-card{
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 14px;
+  }
+  .panel-card .label{
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 8px;
+  }
+  .panel-card .value{
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .panel-card .value.up{ color: var(--accent); }
+
+  .panel-row{
+    background: rgba(255,255,255,0.025);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px 14px;
+    display:flex; align-items:center; justify-content:space-between;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--ink-dim);
+  }
+  .panel-row .status{
+    color: var(--accent);
+    background: rgba(92,124,250,0.12);
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 0.68rem;
+  }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .section-head{ margin-bottom: 52px; max-width: 620px; }
+  .section-head .eyebrow{ margin-bottom: 16px; }
+  .section-head h2{
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 3vw, 2.3rem);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 14px;
+  }
+  .section-head p{ color: var(--ink-dim); font-size: 1.02rem; }
+
+  section.pad{ padding: 108px 0; }
+  section.pad.alt{
+    background: linear-gradient(180deg, transparent, rgba(255,255,255,0.015), transparent);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  /* ---------- SERVICES ---------- */
+  .services-grid{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+  .service-card{
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 26px 22px;
+    transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+  }
+  .service-card:hover{
+    transform: translateY(-4px);
+    border-color: rgba(92,124,250,0.32);
+    background: rgba(255,255,255,0.05);
+  }
+  .service-icon{
+    width: 42px; height:42px;
+    border-radius: 10px;
+    background: rgba(92,124,250,0.1);
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom: 18px;
+    color: var(--accent);
+  }
+  .service-card h3{
+    font-family: var(--font-display);
+    font-size: 1.06rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .service-card p{ color: var(--ink-dim); font-size: 0.92rem; }
+
+  /* ---------- PROJECTS ---------- */
+  .projects{
+    display:flex; flex-direction:column; gap: 26px;
+  }
+  .project-card{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    overflow:hidden;
+  }
+  .project-card:nth-child(even) .project-shot{ order: 2; }
+  .project-shot{
+    background:
+      repeating-linear-gradient(135deg, rgba(92,124,250,0.05) 0 2px, transparent 2px 18px),
+      linear-gradient(160deg, var(--navy-soft), var(--navy));
+    min-height: 280px;
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:10px;
+    border-right: 1px solid var(--line);
+    padding: 24px;
+  }
+  .project-card:nth-child(even) .project-shot{ border-right:none; border-left: 1px solid var(--line); }
+  .shot-badge{
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--ink-dim);
+    border: 1px dashed rgba(245,246,250,0.2);
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-align:center;
+  }
+  .project-info{
+    padding: 38px 36px;
+    display:flex; flex-direction:column; justify-content:center;
+  }
+  .project-tag{
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+  }
+  .project-info h3{
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .project-info p{ color: var(--ink-dim); font-size: 0.95rem; margin-bottom: 18px; }
+  .project-feats{
+    display:flex; flex-wrap:wrap; gap: 9px;
+  }
+  .project-feats span{
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--ink);
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--line);
+    padding: 6px 11px;
+    border-radius: 999px;
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about{
+    display:grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 56px;
+    align-items:center;
+  }
+  .about-visual{
+    aspect-ratio: 1/1;
+    max-width: 340px;
+    border-radius: 20px;
+    background: linear-gradient(155deg, var(--navy-soft), var(--navy-deep));
+    border: 1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .about-visual .code{
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent);
+    line-height: 1.9;
+    opacity: 0.9;
+    padding: 24px;
+  }
+  .about-visual .code .dim{ color: var(--ink-dim); }
+  .about-visual .code .ink-t{ color: var(--ink); }
+
+  .about h2{
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 3vw, 2.2rem);
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .about p{ color: var(--ink-dim); margin-bottom: 16px; font-size: 1rem; }
+  .about-stats{
+    display:flex; gap: 32px;
+    margin-top: 26px;
+    padding-top: 26px;
+    border-top: 1px solid var(--line);
+  }
+  .about-stats .stat b{
+    font-family: var(--font-display);
+    font-size: 1.7rem;
+    color: var(--accent);
+    display:block;
+  }
+  .about-stats .stat span{
+    font-size: 0.8rem;
+    color: var(--ink-dim);
+  }
+
+  /* ---------- CONTACT ---------- */
+  .contact-box{
+    background: linear-gradient(155deg, var(--navy-soft), var(--navy));
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 64px 48px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .contact-box::before{
+    content:"";
+    position:absolute; top:-40%; right:-10%;
+    width: 420px; height:420px;
+    background: radial-gradient(circle, rgba(92,124,250,0.14), transparent 70%);
+    pointer-events:none;
+  }
+  .contact-box h2{
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .contact-box p{ color: var(--ink-dim); max-width: 480px; margin: 0 auto 34px; }
+  .contact-ctas{ display:flex; gap: 16px; justify-content:center; flex-wrap:wrap; }
+  .contact-detail{
+    margin-top: 30px;
+    font-family: var(--font-mono);
+    font-size: 0.86rem;
+    color: var(--ink-dim);
+  }
+  .contact-detail a{ color: var(--accent); }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding: 34px 0 46px;
+    text-align:center;
+    color: var(--ink-dim);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--line);
+  }
+  footer img{ height: 20px; margin: 0 auto 10px; opacity: 0.7; }
+  footer .mono{ font-family: var(--font-mono); font-size: 0.78rem; opacity: 0.7; margin-top: 6px; }
+
+  /* ---------- WHATSAPP FLOAT ---------- */
+  .wa-float{
+    position: fixed;
+    bottom: 26px; right: 26px;
+    width: 58px; height:58px;
+    border-radius: 50%;
+    background: #25D366;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow: 0 10px 30px rgba(37,211,102,0.4);
+    z-index: 60;
+    transition: transform 0.2s ease;
+  }
+  .wa-float:hover{ transform: scale(1.08); }
+
+  /* ---------- REVEAL ---------- */
+  .reveal{ opacity:0; transform: translateY(22px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.in{ opacity:1; transform: translateY(0); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 940px){
+    .services-grid{ grid-template-columns: repeat(2, 1fr); }
+    .hero{ grid-template-columns: 1fr; padding-top: 150px; }
+    .hero-watermark{ display:none; }
+    .about{ grid-template-columns: 1fr; }
+    .about-visual{ max-width: 260px; margin: 0 auto; }
+    .project-card{ grid-template-columns: 1fr; }
+    .project-card:nth-child(even) .project-shot{ order: -1; border-left:none; border-bottom: 1px solid var(--line); }
+    .project-shot{ min-height: 200px; border-right:none; border-bottom: 1px solid var(--line); }
+  }
+
+  @media (max-width: 720px){
+    .nav-links{
+      position:fixed; top:72px; left:0; right:0;
+      background: rgba(18,21,42,0.98);
+      backdrop-filter: blur(14px);
+      flex-direction:column;
+      align-items:flex-start;
+      padding: 26px 28px 34px;
+      gap: 22px;
+      border-bottom: 1px solid var(--line);
+      transform: translateY(-130%);
+      transition: transform 0.3s ease;
+    }
+    .nav-links.open{ transform: translateY(0); }
+    .menu-btn{ display:flex; }
+    .nav-cta{ order:5; }
+    .services-grid{ grid-template-columns: 1fr; }
+    .contact-box{ padding: 44px 24px; }
+    .wrap{ padding: 0 20px; }
+    .project-info{ padding: 28px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap nav">
+    <a href="#top" class="logo"><img src="keb-logo.png" alt="KEB Studio"></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#hizmetler">Hizmetler</a></li>
+      <li><a href="#projeler">Projeler</a></li>
+      <li><a href="#hakkinda">Hakkında</a></li>
+      <li><a href="#iletisim" class="nav-cta">İletişime Geç</a></li>
+    </ul>
+    <button class="menu-btn" id="menuBtn" aria-label="Menüyü aç">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="wrap hero">
+    <img src="keb-logo.png" alt="" class="hero-watermark">
+    <div>
+      <div class="eyebrow"><span class="dot"></span>Adana merkezli · AI destekli yazılım stüdyosu</div>
+      <h1>Fikrinizi <em>çalışan bir panele</em> dönüştürüyoruz.</h1>
+      <p class="lead">KEB Studio; web sitesi, e-ticaret ve iş otomasyonu çözümlerini yapay zeka destekli geliştirme yaklaşımıyla hızlı, sade ve uygun maliyetli şekilde hayata geçirir. Süslü vaatler değil, gerçekten kullanılan sistemler kurarız.</p>
+      <div class="hero-ctas">
+        <a href="#iletisim" class="btn btn-primary">İletişime Geç</a>
+        <a href="#projeler" class="btn btn-ghost">Projelere Göz At</a>
+      </div>
+    </div>
+
+    <div class="panel-mock">
+      <div class="panel-top">
+        <div class="panel-dots"><span></span><span></span><span></span></div>
+        <div class="panel-tag"><span class="live"></span>canlı panel örneği</div>
+      </div>
+      <div class="panel-grid">
+        <div class="panel-card">
+          <div class="label">Stok Kalemi</div>
+          <div class="value up">1.284</div>
+        </div>
+        <div class="panel-card">
+          <div class="label">Aktif Bayi</div>
+          <div class="value">37</div>
+        </div>
+        <div class="panel-card">
+          <div class="label">Bugünkü Sipariş</div>
+          <div class="value">12</div>
+        </div>
+        <div class="panel-card">
+          <div class="label">Cari Bakiye</div>
+          <div class="value up">₺48.250</div>
+        </div>
+      </div>
+      <div class="panel-row">
+        <span>#SP-1042 · Bayi: Toros Oto</span>
+        <span class="status">Onaylandı</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- HİZMETLER -->
+  <section class="pad alt" id="hizmetler">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow"><span class="dot"></span>Hizmetler</div>
+        <h2>İşletmenizin ihtiyacına göre dört ana çözüm</h2>
+        <p>Her proje, işin gerçekten ihtiyaç duyduğu kadar basit ya da kapsamlı kurulur — gereksiz karmaşıklık yok.</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <div class="service-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M4 9h16"/><circle cx="7" cy="6.5" r="0.6" fill="currentColor"/></svg>
+          </div>
+          <h3>Web Sitesi Geliştirme</h3>
+          <p>Kurumsal tanıtım ve portfolyo siteleri; hızlı yüklenen, mobil uyumlu, sade ve modern tasarım.</p>
+        </div>
+
+        <div class="service-card reveal">
+          <div class="service-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18l-2 9H5L3 6z"/><path d="M3 6l-1-3"/><circle cx="8" cy="20" r="1.3"/><circle cx="17" cy="20" r="1.3"/></svg>
+          </div>
+          <h3>E-Ticaret Çözümleri</h3>
+          <p>B2B ve B2C satış siteleri; ürün kataloğu, sepet, sipariş akışı ve ödeme entegrasyonu ile.</p>
+        </div>
+
+        <div class="service-card reveal">
+          <div class="service-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 10h18"/><path d="M7 14h4"/></svg>
+          </div>
+          <h3>İş Otomasyonu & Bayi Portalları</h3>
+          <p>Stok, sipariş ve cari hesap takibi yapan; işletmenize özel yönetim panelleri kurarız.</p>
+        </div>
+
+        <div class="service-card reveal">
+          <div class="service-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>
+          </div>
+          <h3>Danışmanlık</h3>
+          <p>Hangi teknolojinin, hangi bütçeyle işletmenize uygun olduğu konusunda yol gösteririz.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJELER -->
+  <section class="pad" id="projeler">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="eyebrow"><span class="dot"></span>Projeler</div>
+        <h2>Kağıt üzerinde kalmayan, gerçekten kullanılan sistemler</h2>
+        <p>KEB Studio'nun kurulmasından önce, aynı yaklaşımla hayata geçirdiğimiz iki canlı proje.</p>
+      </div>
+
+      <div class="projects">
+        <div class="project-card reveal">
+          <div class="project-shot">
+            <div class="shot-badge">Ekran görüntüsü<br>yakında eklenecek</div>
+          </div>
+          <div class="project-info">
+            <div class="project-tag">B2B Bayi Otomasyonu</div>
+            <h3>Çukurova Bayi Platformu</h3>
+            <p>Bir oto yedek parça bayi ağı için kurulan tam kapsamlı yönetim sistemi. Bayiler ürün arayıp sipariş verir, admin tarafı stok ve cari hesabı anlık takip eder.</p>
+            <div class="project-feats">
+              <span>Marka/Model/Yıl ürün arama</span>
+              <span>Sipariş & cari hesap takibi</span>
+              <span>WhatsApp entegrasyonu</span>
+              <span>Kredi limiti kontrolü</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div class="project-shot">
+            <div class="shot-badge">Ekran görüntüsü<br>yakında eklenecek</div>
+          </div>
+          <div class="project-info">
+            <div class="project-tag">B2B / B2C E-Ticaret</div>
+            <h3>Spraybox</h3>
+            <p>Otomotiv kimyasalları markası Spraybox için hazırlanan e-ticaret sitesi. Kurumsal bayilerin ve bireysel müşterilerin aynı platform üzerinden sipariş verebilmesi hedeflendi.</p>
+            <div class="project-feats">
+              <span>Ürün kategorileri</span>
+              <span>Marka kimliğine uygun tasarım</span>
+              <span>WhatsApp sipariş desteği</span>
+              <span>Mobil uyumlu arayüz</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HAKKINDA -->
+  <section class="pad alt" id="hakkinda">
+    <div class="wrap about">
+      <div class="about-visual reveal">
+        <div class="code">
+          <div><span class="dim">// yaklaşım</span></div>
+          <div>const <span class="ink-t">sistem</span> = {</div>
+          <div>&nbsp;&nbsp;hız: <span class="ink-t">"yüksek"</span>,</div>
+          <div>&nbsp;&nbsp;maliyet: <span class="ink-t">"düşük"</span>,</div>
+          <div>&nbsp;&nbsp;kalite: <span class="ink-t">"gerçek"</span></div>
+          <div>};</div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="eyebrow"><span class="dot"></span>Hakkında</div>
+        <h2>Ekonomi öğrencisiyim, yazılımı yapay zekayla üretiyorum.</h2>
+        <p>KEB Studio'yu kuran Kaan, geleneksel bir yazılım geçmişinden gelmiyor — ekonomi eğitimi alıyor ve iş süreçlerini, mantığı ve ihtiyacı en baştan sona kendisi tasarlıyor. Kodun yazımında yapay zeka araçlarından yararlanıyor, ama sistemin nasıl çalışacağına, hangi problemi çözeceğine ve nasıl büyüyeceğine dair her karar ona ait.</p>
+        <p>Bu yaklaşım, klasik ajans süreçlerine göre çok daha hızlı ve uygun maliyetli sonuçlar sağlıyor — küçük ve orta ölçekli işletmelerin ihtiyaç duyduğu, gösterişten uzak ama gerçekten işe yarayan sistemler.</p>
+        <div class="about-stats">
+          <div class="stat"><b>2</b><span>Canlı proje</span></div>
+          <div class="stat"><b>%0</b><span>Gereksiz karmaşıklık</span></div>
+          <div class="stat"><b>AI</b><span>Destekli geliştirme</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- İLETİŞİM -->
+  <section class="pad" id="iletisim">
+    <div class="wrap">
+      <div class="contact-box reveal">
+        <h2>Bir fikriniz mi var? Konuşalım.</h2>
+        <p>İşletmeniz için web sitesi, e-ticaret veya otomasyon ihtiyacınızı anlatın, size en uygun ve en hızlı çözümü birlikte planlayalım.</p>
+        <div class="contact-ctas">
+          <a href="https://wa.me/905459607405" target="_blank" rel="noopener" class="btn btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-3.1.82.83-3-.2-.32A8.2 8.2 0 1 1 12 20.2zm4.5-6.15c-.25-.12-1.45-.72-1.67-.8-.22-.08-.38-.12-.55.12-.16.24-.63.8-.77.96-.14.16-.28.18-.53.06-.25-.12-1.04-.38-1.98-1.2-.73-.65-1.22-1.46-1.37-1.7-.14-.24-.02-.37.1-.5.11-.1.25-.28.37-.42.12-.14.16-.24.25-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.32-.75-1.8-.2-.48-.4-.4-.55-.4h-.47c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.5.58.18 1.1.16 1.52.1.46-.07 1.45-.6 1.65-1.17.2-.58.2-1.07.14-1.17-.06-.1-.22-.16-.47-.28z"/></svg>
+            WhatsApp ile Yaz
+          </a>
+          <a href="mailto:info@kebstudio.com.tr" class="btn btn-ghost">info@kebstudio.com.tr</a>
+        </div>
+        <div class="contact-detail">Ya da doğrudan yaz: <a href="mailto:info@kebstudio.com.tr">info@kebstudio.com.tr</a></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<a href="https://wa.me/905459607405" target="_blank" rel="noopener" class="wa-float" aria-label="WhatsApp ile iletişime geç">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-3.1.82.83-3-.2-.32A8.2 8.2 0 1 1 12 20.2zm4.5-6.15c-.25-.12-1.45-.72-1.67-.8-.22-.08-.38-.12-.55.12-.16.24-.63.8-.77.96-.14.16-.28.18-.53.06-.25-.12-1.04-.38-1.98-1.2-.73-.65-1.22-1.46-1.37-1.7-.14-.24-.02-.37.1-.5.11-.1.25-.28.37-.42.12-.14.16-.24.25-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.32-.75-1.8-.2-.48-.4-.4-.55-.4h-.47c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.5.58.18 1.1.16 1.52.1.46-.07 1.45-.6 1.65-1.17.2-.58.2-1.07.14-1.17-.06-.1-.22-.16-.47-.28z"/></svg>
+</a>
+
+<footer>
+  <div class="wrap">
+    <img src="keb-logo.png" alt="KEB Studio">
+    <div>© 2026 KEB Studio. Tüm hakları saklıdır.</div>
+    <div class="mono">Adana · info@kebstudio.com.tr</div>
+  </div>
+</footer>
+
+<script>
+  // Mobil menü
+  const menuBtn = document.getElementById('menuBtn');
+  const navLinks = document.getElementById('navLinks');
+  menuBtn.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => navLinks.classList.remove('open'));
+  });
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
