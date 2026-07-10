@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KEB Studio — Web Sitesi, E-Ticaret ve İş Otomasyonu Çözümleri</title>
 <meta name="description" content="KEB Studio: Yapay zeka destekli geliştirme yaklaşımıyla işletmeniz için hızlı, uygun maliyetli web siteleri, e-ticaret çözümleri ve bayi/otomasyon panelleri.">
-<link rel="icon" href="keb-logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -89,8 +88,11 @@
   }
   .logo{
     display:flex; align-items:center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: -0.01em;
   }
-  .logo img{ height: 100px; width:auto; }
 
   .nav-links{
     display:flex; align-items:center; gap: 34px;
@@ -119,22 +121,81 @@
   }
   .menu-btn span{ width:22px; height:2px; background:var(--ink); border-radius:2px; transition: all 0.25s ease; }
 
-  /* ---------- HERO ---------- */
-  .hero{
-    padding: 168px 0 110px;
+  /* ---------- HERO: CİNEMATİC FULL-BLEED ---------- */
+  .hero-cinema{
+    position:relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    overflow:hidden;
+    background: radial-gradient(ellipse at 50% 32%, var(--navy-soft), var(--navy-deep) 72%);
+    padding: 120px 24px 90px;
+  }
+  #networkCanvas{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    z-index:0;
+    display:block;
+  }
+  .hero-vignette{
+    position:absolute; inset:0;
+    background:
+      radial-gradient(ellipse at 50% 42%, transparent 35%, var(--navy-deep) 94%),
+      linear-gradient(to bottom, rgba(18,21,42,0.05), var(--navy-deep) 100%);
+    pointer-events:none;
+    z-index:1;
+  }
+  .hero-cinema-content{
+    position:relative; z-index:2;
+    display:flex; flex-direction:column; align-items:center; gap:24px;
+    max-width: 720px;
+  }
+  .hero-logo-text{
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(3rem, 9vw, 6.5rem);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--ink);
+    text-shadow: 0 0 60px rgba(92,124,250,0.35);
+  }
+  .hero-tagline{
+    font-family: var(--font-display);
+    font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+    font-weight: 500;
+    color: var(--ink-dim);
+    max-width: 500px;
+  }
+  .scroll-cue{
+    position:absolute; bottom: 30px; left:50%; transform:translateX(-50%);
+    z-index:2;
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  .scroll-cue .line{
+    width:1px; height:34px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    animation: scrollpulse 1.9s infinite;
+  }
+  @keyframes scrollpulse{
+    0%{ opacity:0.15; transform: scaleY(0.4); transform-origin: top; }
+    50%{ opacity:1; transform: scaleY(1); transform-origin: top; }
+    100%{ opacity:0.15; transform: scaleY(0.4); transform-origin: top; }
+  }
+
+  /* ---------- INTRO BLOCK (eski hero içeriği) ---------- */
+  .intro-block{
+    padding: 100px 0 110px;
     display:grid;
     grid-template-columns: 1.05fr 0.95fr;
     gap: 56px;
     align-items:center;
     position:relative;
-  }
-  .hero-watermark{
-    position:absolute;
-    top: 40px; right: -60px;
-    width: 620px;
-    opacity: 0.05;
-    pointer-events:none;
-    z-index:0;
   }
   .eyebrow{
     display:inline-flex; align-items:center; gap:9px;
@@ -151,7 +212,7 @@
   }
   .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); }
 
-  .hero h1{
+  .intro-block h1{
     font-family: var(--font-display);
     font-size: clamp(2.3rem, 4.6vw, 3.6rem);
     font-weight: 700;
@@ -159,14 +220,14 @@
     letter-spacing: -0.01em;
     margin-bottom: 22px;
   }
-  .hero h1 em{
+  .intro-block h1 em{
     font-style: normal;
     background: linear-gradient(100deg, var(--ink), var(--accent));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
-  .hero p.lead{
+  .intro-block p.lead{
     font-size: 1.08rem;
     color: var(--ink-dim);
     max-width: 480px;
@@ -487,7 +548,13 @@
     font-size: 0.85rem;
     border-top: 1px solid var(--line);
   }
-  footer img{ height: 20px; margin: 0 auto 10px; opacity: 0.7; }
+  footer .footer-logo{
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    margin: 0 auto 10px;
+    opacity: 0.85;
+  }
   footer .mono{ font-family: var(--font-mono); font-size: 0.78rem; opacity: 0.7; margin-top: 6px; }
 
   /* ---------- WHATSAPP FLOAT ---------- */
@@ -511,8 +578,8 @@
   /* ---------- RESPONSIVE ---------- */
   @media (max-width: 940px){
     .services-grid{ grid-template-columns: repeat(2, 1fr); }
-    .hero{ grid-template-columns: 1fr; padding-top: 150px; }
-    .hero-watermark{ display:none; }
+    .intro-block{ grid-template-columns: 1fr; padding-top: 40px; }
+    .hero-cinema{ padding: 110px 20px 80px; }
     .about{ grid-template-columns: 1fr; }
     .about-visual{ max-width: 260px; margin: 0 auto; }
     .project-card{ grid-template-columns: 1fr; }
@@ -547,7 +614,7 @@
 
 <header>
   <nav class="wrap nav">
-    <a href="#top" class="logo"><img src="keb-logo.png" alt="KEB Studio"></a>
+    <a href="#top" class="logo">KEB Studio</a>
     <ul class="nav-links" id="navLinks">
       <li><a href="#hizmetler">Hizmetler</a></li>
       <li><a href="#projeler">Projeler</a></li>
@@ -562,11 +629,21 @@
 
 <main id="top">
 
-  <!-- HERO -->
-  <section class="wrap hero">
-    <img src="keb-logo.png" alt="" class="hero-watermark">
-    <div>
+  <!-- HERO: TAM EKRAN SİNEMATİK GİRİŞ -->
+  <section class="hero-cinema" id="heroCinema">
+    <canvas id="networkCanvas"></canvas>
+    <div class="hero-vignette"></div>
+    <div class="hero-cinema-content">
       <div class="eyebrow"><span class="dot"></span>Adana merkezli · AI destekli yazılım stüdyosu</div>
+      <h1 class="hero-logo-text">KEB Studio</h1>
+      <p class="hero-tagline">Fikirden çalışan panele — web sitesi, e-ticaret ve otomasyon çözümleri.</p>
+    </div>
+    <div class="scroll-cue"><span class="line"></span>Kaydır</div>
+  </section>
+
+  <!-- İNTRO / DEĞER ÖNERİSİ -->
+  <section class="wrap intro-block">
+    <div>
       <h1>Fikrinizi <em>çalışan bir panele</em> dönüştürüyoruz.</h1>
       <p class="lead">KEB Studio; web sitesi, e-ticaret ve iş otomasyonu çözümlerini yapay zeka destekli geliştirme yaklaşımıyla hızlı, sade ve uygun maliyetli şekilde hayata geçirir. Süslü vaatler değil, gerçekten kullanılan sistemler kurarız.</p>
       <div class="hero-ctas">
@@ -712,9 +789,9 @@
       </div>
       <div class="reveal">
         <div class="eyebrow"><span class="dot"></span>Hakkında</div>
-        <h2>Ekonomi öğrencisiyim, yazılımı yapay zekayla üretiyorum.</h2>
-        <p>KEB Studio'yu kuran Kaan, geleneksel bir yazılım geçmişinden gelmiyor — ekonomi eğitimi alıyor ve iş süreçlerini, mantığı ve ihtiyacı en baştan sona kendisi tasarlıyor. Kodun yazımında yapay zeka araçlarından yararlanıyor, ama sistemin nasıl çalışacağına, hangi problemi çözeceğine ve nasıl büyüyeceğine dair her karar ona ait.</p>
-        <p>Bu yaklaşım, klasik ajans süreçlerine göre çok daha hızlı ve uygun maliyetli sonuçlar sağlıyor — küçük ve orta ölçekli işletmelerin ihtiyaç duyduğu, gösterişten uzak ama gerçekten işe yarayan sistemler.</p>
+        <h2>Konuşmakla değil, kurup çalıştırarak kanıtlıyoruz.</h2>
+        <p>KEB Studio, yapay zeka destekli geliştirme yaklaşımıyla çalışan bir stüdyo. Fikirleri doğrudan çalışan sistemlere dönüştürüyoruz: ürün arama, sipariş yönetimi, stok ve cari hesap takibi yapan tam kapsamlı bir bayi otomasyon portalı ve B2B/B2C satış yapabilen bir e-ticaret sitesi, bugüne kadar hayata geçirdiğimiz projelerden ikisi.</p>
+        <p>Her projede aynı prensiple ilerliyoruz: gereksiz karmaşıklığa boğmadan, işin gerçekten neye ihtiyacı varsa onu kurmak — hızlı, sade ve uygun maliyetli şekilde.</p>
         <div class="about-stats">
           <div class="stat"><b>2</b><span>Canlı proje</span></div>
           <div class="stat"><b>%0</b><span>Gereksiz karmaşıklık</span></div>
@@ -750,13 +827,76 @@
 
 <footer>
   <div class="wrap">
-    <img src="keb-logo.png" alt="KEB Studio">
+    <div class="footer-logo">KEB Studio</div>
     <div>© 2026 KEB Studio. Tüm hakları saklıdır.</div>
     <div class="mono">Adana · info@kebstudio.com.tr</div>
   </div>
 </footer>
 
 <script>
+  // Bilgisayar/ağ temalı arkaplan animasyonu
+  (function(){
+    const canvas = document.getElementById('networkCanvas');
+    const ctx = canvas.getContext('2d');
+    const hero = document.getElementById('heroCinema');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let w, h, particles = [];
+
+    function resize(){
+      w = canvas.width = hero.offsetWidth;
+      h = canvas.height = hero.offsetHeight;
+      const count = Math.min(70, Math.round((w * h) / 16000));
+      particles = Array.from({ length: count }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: (Math.random() - 0.5) * 0.25
+      }));
+    }
+
+    function draw(){
+      ctx.clearRect(0, 0, w, h);
+      const maxDist = Math.min(140, w / 7);
+
+      for(let i = 0; i < particles.length; i++){
+        const p = particles[i];
+        p.x += p.vx; p.y += p.vy;
+        if(p.x < 0 || p.x > w) p.vx *= -1;
+        if(p.y < 0 || p.y > h) p.vy *= -1;
+
+        for(let j = i + 1; j < particles.length; j++){
+          const q = particles[j];
+          const dx = p.x - q.x, dy = p.y - q.y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if(dist < maxDist){
+            ctx.strokeStyle = `rgba(92,124,250,${0.16 * (1 - dist / maxDist)})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(q.x, q.y);
+            ctx.stroke();
+          }
+        }
+      }
+      for(const p of particles){
+        ctx.fillStyle = 'rgba(245,246,250,0.55)';
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 1.6, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function loop(){
+      draw();
+      if(!reduceMotion) requestAnimationFrame(loop);
+    }
+
+    resize();
+    draw();
+    if(!reduceMotion) requestAnimationFrame(loop);
+    window.addEventListener('resize', resize);
+  })();
+
   // Mobil menü
   const menuBtn = document.getElementById('menuBtn');
   const navLinks = document.getElementById('navLinks');
