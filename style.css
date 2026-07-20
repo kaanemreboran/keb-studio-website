@@ -615,28 +615,30 @@
     text-overflow:ellipsis;
     white-space:nowrap;
   }
-  .product-frame-viewport {
+  /* Dışarıdaki siyah tarayıcı penceresi (Kapsayıcı) */
+.product-frame-viewport {
     width: 100%;
-    aspect-ratio: 16 / 9; /* Ekranın en/boy oranını korur */
+    max-width: 960px; /* Ekranda kaplayacağı ideal maksimum genişlik */
+    height: 540px; /* 960px'in kusursuz 16:9 karşılığı */
     margin: 0 auto;
-    overflow: hidden;
     position: relative;
+    overflow: hidden;
     background: #0f1530;
-    container-type: inline-size;
+    border-radius: 0 0 8px 8px; /* Alt kısımlar için hafif kavis (opsiyonel) */
 }
 
+/* İçerideki HTML sayfan */
 .product-frame-viewport iframe {
-    width: 1920px; /* Dashboard'un kesilmemesi için Full HD genişlik */
+    width: 1920px; /* Sayfanın tam masaüstü (Full HD) genişliği */
     height: 1080px;
     border: none;
-    display: block;
     position: absolute;
     top: 0;
     left: 0;
-    transform-origin: top left;
+    transform-origin: 0 0;
     
-    /* 1920px'lik ekranı, siyah çerçevenin içine jilet gibi oturtur */
-    transform: scale(calc(100cqi / 1920)); 
+    /* 960px dış genişlik / 1920px iç genişlik = Tam 0.5 katı küçültme oranı */
+    transform: scale(0.5); 
 }
   .product-note{
     margin-top:var(--sp-3);
