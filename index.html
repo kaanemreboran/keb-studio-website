@@ -3,884 +3,698 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KEB Studio — Web Sitesi, E-Ticaret ve İş Otomasyonu Çözümleri</title>
-<meta name="description" content="KEB Studio: Yapay zeka destekli geliştirme yaklaşımıyla işletmeniz için hızlı, uygun maliyetli web siteleri, e-ticaret çözümleri ve bayi/otomasyon panelleri.">
+<title>KEB Studio — Web Sitesi &amp; İş Otomasyonu</title>
+<meta name="description" content="KEB Studio; bayi takibi, kasa kaydı ve sipariş süreci gibi elle yürüyen işleri, işletmenize özel web sitesi ve yazılıma dönüştürür.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+
+  /* ============ TOKENS ============ */
   :root{
-    --navy-deep: #12152A;
-    --navy: #181C32;
-    --navy-soft: #21243B;
-    --navy-elevated: #2A2D3C;
-    --accent: #5C7CFA;
-    --accent-dim: #3A4B99;
-    --ink: #F5F6FA;
-    --ink-dim: #9A9EB0;
-    --line: rgba(245,246,250,0.09);
-    --card: rgba(255,255,255,0.03);
+    /* color */
+    --graphite:#17191C;
+    --panel:#1F2226;
+    --panel-2:#25282D;
+    --paper:#F3F1EC;
+    --ink:#1A1B1E;
+    --ink-soft:#4B4D51;
+    --amber:#E8912B;
+    --amber-ink:#9C5712;
+    --line-dark:rgba(243,241,236,0.12);
+    --line-light:rgba(26,27,30,0.14);
+    --ok:#7FA88C;
 
-    --font-display: 'Space Grotesk', sans-serif;
-    --font-body: 'Inter', sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
+    /* type */
+    --display:'Big Shoulders Display', sans-serif;
+    --body:'IBM Plex Sans', sans-serif;
+    --mono:'IBM Plex Mono', monospace;
 
-    --radius: 14px;
-    --maxw: 1160px;
+    /* space scale (8px base) */
+    --sp-1:8px;
+    --sp-2:16px;
+    --sp-3:24px;
+    --sp-4:32px;
+    --sp-5:48px;
+    --sp-6:64px;
+    --sp-7:96px;
   }
 
-  *{ margin:0; padding:0; box-sizing:border-box; }
-
-  html{ scroll-behavior:smooth; }
-
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
   body{
-    background: var(--navy-deep);
-    color: var(--ink);
-    font-family: var(--font-body);
-    line-height: 1.6;
-    overflow-x: hidden;
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--body);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
   }
-
-  body::before{
+  img,svg{display:block;max-width:100%;}
+  a{color:inherit;}
+  h1,h2,h3{font-family:var(--display);margin:0;line-height:0.95;letter-spacing:-0.01em;}
+  p{margin:0;}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 var(--sp-3);}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    display:inline-flex;
+    align-items:center;
+    gap:var(--sp-1);
+  }
+  .eyebrow::before{
     content:"";
-    position:fixed; inset:0;
-    background:
-      radial-gradient(circle at 12% 6%, rgba(92,124,250,0.10), transparent 45%),
-      radial-gradient(circle at 90% 32%, rgba(92,124,250,0.05), transparent 40%);
-    pointer-events:none;
-    z-index:0;
+    width:6px;height:6px;border-radius:50%;
+    background:var(--amber);
+    flex:none;
+  }
+  .on-dark .eyebrow{color:var(--amber);}
+  .on-light .eyebrow{color:var(--amber-ink);}
+
+  button{font-family:inherit;cursor:pointer;}
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:var(--sp-1);
+    font-family:var(--mono);
+    font-size:14px;
+    letter-spacing:0.03em;
+    text-decoration:none;
+    padding:14px 24px;
+    border-radius:3px;
+    border:1px solid transparent;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn-primary{
+    background:var(--amber);
+    color:var(--graphite);
+    font-weight:600;
+    box-shadow:0 0 0 rgba(232,145,43,0);
+  }
+  .btn-primary:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 24px rgba(232,145,43,0.28);
+    background:#f3a13c;
+  }
+  .btn-ghost{
+    border-color:var(--line-dark);
+    color:var(--paper);
+  }
+  .btn-ghost:hover{border-color:var(--amber); color:var(--amber);}
+
+  /* ============ NAV ============ */
+  .nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(23,25,28,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line-dark);
+  }
+  .nav .wrap{
+    display:flex;align-items:center;justify-content:space-between;
+    height:72px;
+  }
+  .logo{
+    display:flex;align-items:center;gap:10px;
+    font-family:var(--mono);
+    font-weight:500;
+    font-size:15px;
+    letter-spacing:0.08em;
+    color:var(--paper);
+    text-decoration:none;
+  }
+  .logo .dot{width:9px;height:9px;border-radius:2px;background:var(--amber);}
+  .nav-links{
+    display:none;
+    gap:var(--sp-4);
+    list-style:none;
+    margin:0;padding:0;
+    font-family:var(--mono);
+    font-size:13px;
+    letter-spacing:0.04em;
+  }
+  .nav-links a{
+    color:rgba(243,241,236,0.7);
+    text-decoration:none;
+    transition:color .15s ease;
+  }
+  .nav-links a:hover{color:var(--amber);}
+  .nav-cta{display:none;}
+  .nav-toggle{
+    background:none;border:1px solid var(--line-dark);border-radius:3px;
+    width:40px;height:40px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .nav-toggle svg{stroke:var(--paper);}
+  .mobile-menu{
+    display:none;
+    flex-direction:column;
+    gap:var(--sp-2);
+    padding:var(--sp-3);
+    background:var(--graphite);
+    border-bottom:1px solid var(--line-dark);
+  }
+  .mobile-menu.open{display:flex;}
+  .mobile-menu a{
+    color:var(--paper);text-decoration:none;
+    font-family:var(--mono);font-size:14px;letter-spacing:0.04em;
+    padding:var(--sp-1) 0;
   }
 
-  img{ max-width:100%; display:block; }
-  a{ color:inherit; text-decoration:none; }
-  ul{ list-style:none; }
-  section{ position:relative; z-index:1; }
-
-  .wrap{
-    max-width: var(--maxw);
-    margin: 0 auto;
-    padding: 0 28px;
+  @media(min-width:800px){
+    .nav-links{display:flex;}
+    .nav-cta{display:inline-flex;}
+    .nav-toggle{display:none;}
+    .mobile-menu{display:none !important;}
   }
 
-  ::selection{ background: var(--accent); color: var(--navy-deep); }
+  /* ============ HERO ============ */
+  .hero{
+    background:var(--graphite);
+    color:var(--paper);
+    padding:var(--sp-6) 0 var(--sp-7);
+    border-bottom:1px solid var(--line-dark);
+  }
+  .hero .wrap{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:var(--sp-6);
+  }
+  .hero-copy .eyebrow{margin-bottom:var(--sp-3);}
+  .hero h1{
+    font-size:clamp(34px,7vw,64px);
+    font-weight:800;
+    text-transform:uppercase;
+    max-width:15ch;
+  }
+  .hero-sub{
+    margin-top:var(--sp-3);
+    max-width:46ch;
+    font-size:17px;
+    color:rgba(243,241,236,0.78);
+  }
+  .hero-actions{
+    margin-top:var(--sp-4);
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:var(--sp-3);
+  }
+  .hero-actions .link-scroll{
+    font-family:var(--mono);
+    font-size:14px;
+    color:rgba(243,241,236,0.65);
+    text-decoration:none;
+    border-bottom:1px solid var(--line-dark);
+    padding-bottom:2px;
+  }
+  .hero-actions .link-scroll:hover{color:var(--amber);border-color:var(--amber);}
 
-  a:focus-visible, button:focus-visible{
-    outline: 2px solid var(--accent);
-    outline-offset: 3px;
-    border-radius: 4px;
+  /* control-panel signature */
+  .panel{
+    background:var(--panel);
+    border:1px solid var(--line-dark);
+    border-radius:6px;
+    padding:var(--sp-4);
+    box-shadow:0 24px 60px rgba(0,0,0,0.35);
+  }
+  .panel-head{
+    display:flex;justify-content:space-between;align-items:center;
+    font-family:var(--mono);font-size:11px;letter-spacing:0.1em;
+    color:rgba(243,241,236,0.45);
+    text-transform:uppercase;
+    margin-bottom:var(--sp-3);
+    padding-bottom:var(--sp-2);
+    border-bottom:1px solid var(--line-dark);
+  }
+  .panel-row{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:var(--sp-2) 0;
+    border-bottom:1px solid var(--line-dark);
+    font-family:var(--mono);
+    font-size:13px;
+  }
+  .panel-row:last-child{border-bottom:none;}
+  .panel-row .label{
+    display:flex;align-items:center;gap:10px;
+    color:var(--paper);
+    letter-spacing:0.02em;
+  }
+  .panel-row .led{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--amber);
+    opacity:0.25;
+    transition:opacity .5s ease, box-shadow .5s ease;
+    flex:none;
+  }
+  .panel.lit .panel-row .led{
+    opacity:1;
+    box-shadow:0 0 8px rgba(232,145,43,0.75);
+  }
+  .panel-row .status{color:var(--ok);font-size:12px;}
+  .panel-caption{
+    margin-top:var(--sp-3);
+    font-size:12.5px;
+    color:rgba(243,241,236,0.45);
+    font-family:var(--mono);
+  }
+
+  @media(min-width:900px){
+    .hero .wrap{grid-template-columns:1.35fr 1fr;align-items:center;}
+  }
+
+  /* ============ TRUST STRIP ============ */
+  .trust{
+    background:var(--paper);
+    padding:var(--sp-4) 0;
+    border-bottom:1px solid var(--line-light);
+  }
+  .trust .wrap{
+    display:flex;flex-direction:column;gap:var(--sp-2);
+  }
+  .trust-label{
+    font-family:var(--mono);font-size:12px;letter-spacing:0.1em;
+    text-transform:uppercase;color:var(--ink-soft);
+  }
+  .trust-logos{
+    display:flex;flex-wrap:wrap;gap:var(--sp-5);
+    font-family:var(--display);
+    font-weight:800;
+    font-size:22px;
+    text-transform:uppercase;
+    color:var(--ink);
+  }
+  @media(min-width:800px){
+    .trust .wrap{flex-direction:row;align-items:center;justify-content:space-between;}
+  }
+
+  /* ============ SECTION HEADS ============ */
+  .section{padding:var(--sp-7) 0;}
+  .section-head{
+    max-width:56ch;
+    margin-bottom:var(--sp-6);
+    opacity:0;
+    transform:translateY(14px);
+    transition:opacity .6s ease, transform .6s ease;
+  }
+  .section-head.in-view{opacity:1;transform:translateY(0);}
+  .section-head .eyebrow{margin-bottom:var(--sp-2);}
+  .section-head h2{
+    font-size:clamp(28px,4.4vw,42px);
+    font-weight:800;
+    text-transform:uppercase;
+  }
+
+  /* ============ SERVICES ============ */
+  .services-list{display:flex;flex-direction:column;gap:var(--sp-3);}
+  .service-row{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:var(--sp-3);
+    padding:var(--sp-4);
+    border:1px solid var(--line-light);
+    border-radius:6px;
+    background:#fff;
+  }
+  .service-row:nth-child(2){
+    background:var(--ink);
+    color:var(--paper);
+    border-color:var(--ink);
+  }
+  .service-row:nth-child(2) .service-desc{color:rgba(243,241,236,0.75);}
+  .service-row:nth-child(2) .example{border-color:var(--line-dark);color:rgba(243,241,236,0.6);}
+  .service-icon{
+    width:44px;height:44px;
+    flex:none;
+    color:var(--amber-ink);
+  }
+  .service-row:nth-child(2) .service-icon{color:var(--amber);}
+  .service-title{
+    font-family:var(--display);
+    font-weight:800;
+    font-size:26px;
+    text-transform:uppercase;
+    margin-top:var(--sp-2);
+  }
+  .service-desc{
+    margin-top:var(--sp-1);
+    max-width:52ch;
+    color:var(--ink-soft);
+    font-size:15.5px;
+  }
+  .example{
+    margin-top:var(--sp-3);
+    display:inline-block;
+    font-family:var(--mono);
+    font-size:12.5px;
+    padding:8px 12px;
+    border:1px solid var(--line-light);
+    border-radius:3px;
+    color:var(--ink-soft);
+  }
+  @media(min-width:760px){
+    .service-row{grid-template-columns:44px 1fr;align-items:start;padding:var(--sp-5);}
+    .service-row .service-icon{grid-row:1/3;}
+  }
+
+  /* ============ WORK ============ */
+  .work-item{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:var(--sp-4);
+    padding:var(--sp-5) 0;
+    border-top:1px solid var(--line-light);
+  }
+  .work-item:last-child{border-bottom:1px solid var(--line-light);}
+  .work-text .eyebrow{margin-bottom:var(--sp-2);}
+  .work-title{
+    font-family:var(--display);
+    font-weight:800;
+    font-size:clamp(24px,3.4vw,32px);
+    text-transform:uppercase;
+  }
+  .work-desc{margin-top:var(--sp-2);max-width:50ch;color:var(--ink-soft);font-size:15.5px;}
+
+  /* schematic UI mockups */
+  .mock{
+    background:var(--graphite);
+    border-radius:6px;
+    padding:var(--sp-3);
+    border:1px solid var(--line-dark);
+  }
+  .mock-bar{height:8px;border-radius:2px;background:var(--panel-2);margin-bottom:8px;}
+  .mock-row{display:flex;gap:8px;margin-bottom:8px;}
+  .mock-row .cell{height:14px;border-radius:2px;background:var(--panel-2);flex:1;}
+  .mock-row .cell.amber{background:rgba(232,145,43,0.55);flex:0 0 18%;}
+  .mock-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+  .mock-grid .tile{aspect-ratio:1;border-radius:4px;background:var(--panel-2);}
+  .mock-grid .tile:nth-child(2){background:rgba(232,145,43,0.35);}
+
+  @media(min-width:860px){
+    .work-item{grid-template-columns:1fr 1fr;align-items:center;}
+    .work-item:nth-child(even) .work-text{order:2;}
+  }
+
+  /* ============ ABOUT ============ */
+  .about{background:var(--ink);color:var(--paper);}
+  .about-quote{
+    max-width:64ch;
+    border-left:3px solid var(--amber);
+    padding-left:var(--sp-4);
+  }
+  .about-quote p{
+    font-size:clamp(19px,2.6vw,24px);
+    line-height:1.5;
+    color:rgba(243,241,236,0.9);
+  }
+  .about-role{
+    margin-top:var(--sp-3);
+    font-family:var(--mono);
+    font-size:13px;
+    color:rgba(243,241,236,0.5);
+    letter-spacing:0.04em;
+  }
+
+  /* ============ CONTACT ============ */
+  .contact{
+    background:var(--amber);
+    color:var(--graphite);
+  }
+  .contact h2{
+    font-size:clamp(32px,6vw,58px);
+    font-weight:800;
+    text-transform:uppercase;
+    max-width:14ch;
+  }
+  .contact-sub{
+    margin-top:var(--sp-2);
+    max-width:44ch;
+    font-size:17px;
+    color:rgba(23,25,28,0.75);
+  }
+  .contact-actions{margin-top:var(--sp-4);}
+  .btn-dark{
+    background:var(--graphite);
+    color:var(--paper);
+    font-family:var(--mono);
+    font-weight:500;
+    padding:14px 24px;
+    border-radius:3px;
+    text-decoration:none;
+    display:inline-flex;
+    gap:8px;align-items:center;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-dark:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 24px rgba(23,25,28,0.35);
+  }
+
+  /* ============ FOOTER ============ */
+  footer{background:var(--graphite);color:rgba(243,241,236,0.55);padding:var(--sp-5) 0;}
+  .footer-wrap{
+    display:flex;flex-direction:column;gap:var(--sp-3);
+    font-family:var(--mono);font-size:13px;
+  }
+  .footer-links{display:flex;flex-wrap:wrap;gap:var(--sp-3);}
+  .footer-links a{color:rgba(243,241,236,0.55);text-decoration:none;}
+  .footer-links a:hover{color:var(--amber);}
+  .footer-bottom{
+    display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(--sp-2);
+    padding-top:var(--sp-3);
+    border-top:1px solid var(--line-dark);
+  }
+
+  @media(min-width:800px){
+    .footer-wrap{flex-direction:row;justify-content:space-between;align-items:flex-start;}
   }
 
   @media (prefers-reduced-motion: reduce){
-    *{ animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior:auto !important; }
-  }
-
-  /* ---------- HEADER ---------- */
-  header{
-    position: fixed; top:0; left:0; right:0;
-    z-index: 50;
-    background: rgba(18,21,42,0.72);
-    backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--line);
-  }
-  .nav{
-    display:flex; align-items:center; justify-content:space-between;
-    height: 72px;
-  }
-  .logo{
-    display:flex; align-items:center;
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1.2rem;
-    letter-spacing: -0.01em;
-  }
-
-  .nav-links{
-    display:flex; align-items:center; gap: 34px;
-    font-size: 0.94rem;
-    color: var(--ink-dim);
-  }
-  .nav-links a{ transition: color 0.2s ease; position:relative; }
-  .nav-links a:hover{ color: var(--ink); }
-  .nav-cta{
-    padding: 10px 22px;
-    border-radius: 999px;
-    background: var(--ink);
-    color: var(--navy-deep) !important;
-    font-weight: 600;
-    font-size: 0.9rem;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  .nav-cta:hover{ transform: translateY(-1px); box-shadow: 0 8px 22px rgba(92,124,250,0.28); }
-
-  .menu-btn{
-    display:none;
-    background:none; border:none; color:var(--ink);
-    width: 40px; height:40px;
-    flex-direction:column; align-items:center; justify-content:center; gap:5px;
-    cursor:pointer;
-  }
-  .menu-btn span{ width:22px; height:2px; background:var(--ink); border-radius:2px; transition: all 0.25s ease; }
-
-  /* ---------- HERO: CİNEMATİC FULL-BLEED ---------- */
-  .hero-cinema{
-    position:relative;
-    min-height: 100vh;
-    min-height: 100svh;
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    text-align:center;
-    overflow:hidden;
-    background: radial-gradient(ellipse at 50% 32%, var(--navy-soft), var(--navy-deep) 72%);
-    padding: 120px 24px 90px;
-  }
-  #networkCanvas{
-    position:absolute; inset:0;
-    width:100%; height:100%;
-    z-index:0;
-    display:block;
-  }
-  .hero-vignette{
-    position:absolute; inset:0;
-    background:
-      radial-gradient(ellipse at 50% 42%, transparent 35%, var(--navy-deep) 94%),
-      linear-gradient(to bottom, rgba(18,21,42,0.05), var(--navy-deep) 100%);
-    pointer-events:none;
-    z-index:1;
-  }
-  .hero-cinema-content{
-    position:relative; z-index:2;
-    display:flex; flex-direction:column; align-items:center; gap:24px;
-    max-width: 720px;
-  }
-  .hero-logo-text{
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: clamp(3rem, 9vw, 6.5rem);
-    letter-spacing: -0.02em;
-    line-height: 1;
-    color: var(--ink);
-    text-shadow: 0 0 60px rgba(92,124,250,0.35);
-  }
-  .hero-tagline{
-    font-family: var(--font-display);
-    font-size: clamp(1.05rem, 2.2vw, 1.3rem);
-    font-weight: 500;
-    color: var(--ink-dim);
-    max-width: 500px;
-  }
-  .scroll-cue{
-    position:absolute; bottom: 30px; left:50%; transform:translateX(-50%);
-    z-index:2;
-    display:flex; flex-direction:column; align-items:center; gap:10px;
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--ink-dim);
-  }
-  .scroll-cue .line{
-    width:1px; height:34px;
-    background: linear-gradient(to bottom, var(--accent), transparent);
-    animation: scrollpulse 1.9s infinite;
-  }
-  @keyframes scrollpulse{
-    0%{ opacity:0.15; transform: scaleY(0.4); transform-origin: top; }
-    50%{ opacity:1; transform: scaleY(1); transform-origin: top; }
-    100%{ opacity:0.15; transform: scaleY(0.4); transform-origin: top; }
-  }
-
-  /* ---------- INTRO BLOCK (eski hero içeriği) ---------- */
-  .intro-block{
-    padding: 100px 0 110px;
-    display:grid;
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: 56px;
-    align-items:center;
-    position:relative;
-  }
-  .eyebrow{
-    display:inline-flex; align-items:center; gap:9px;
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--accent);
-    background: rgba(92,124,250,0.09);
-    border: 1px solid rgba(92,124,250,0.28);
-    padding: 7px 14px;
-    border-radius: 999px;
-    margin-bottom: 26px;
-  }
-  .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); }
-
-  .intro-block h1{
-    font-family: var(--font-display);
-    font-size: clamp(2.3rem, 4.6vw, 3.6rem);
-    font-weight: 700;
-    line-height: 1.12;
-    letter-spacing: -0.01em;
-    margin-bottom: 22px;
-  }
-  .intro-block h1 em{
-    font-style: normal;
-    background: linear-gradient(100deg, var(--ink), var(--accent));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-  .intro-block p.lead{
-    font-size: 1.08rem;
-    color: var(--ink-dim);
-    max-width: 480px;
-    margin-bottom: 34px;
-  }
-  .hero-ctas{ display:flex; gap:14px; flex-wrap:wrap; }
-  .btn{
-    display:inline-flex; align-items:center; gap:8px;
-    padding: 14px 26px;
-    border-radius: 10px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-    cursor:pointer; border:none;
-  }
-  .btn-primary{
-    background: var(--ink);
-    color: var(--navy-deep);
-  }
-  .btn-primary:hover{ transform: translateY(-2px); box-shadow: 0 10px 26px rgba(92,124,250,0.32); }
-  .btn-ghost{
-    background: transparent;
-    border: 1px solid var(--line);
-    color: var(--ink);
-  }
-  .btn-ghost:hover{ border-color: rgba(245,246,250,0.35); background: rgba(255,255,255,0.03); }
-
-  /* signature: live-panel mockup */
-  .panel-mock{
-    background: linear-gradient(165deg, var(--navy-soft), var(--navy));
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 22px;
-    box-shadow: 0 30px 70px rgba(0,0,0,0.45);
-    position:relative;
-  }
-  .panel-mock::after{
-    content:"";
-    position:absolute; inset:-1px;
-    border-radius: 16px;
-    padding:1px;
-    background: linear-gradient(135deg, rgba(92,124,250,0.35), transparent 40%);
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor; mask-composite: exclude;
-    pointer-events:none;
-  }
-  .panel-top{
-    display:flex; align-items:center; justify-content:space-between;
-    margin-bottom: 18px;
-  }
-  .panel-dots{ display:flex; gap:6px; }
-  .panel-dots span{ width:9px; height:9px; border-radius:50%; background: rgba(245,246,250,0.18); }
-  .panel-tag{
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    color: var(--ink-dim);
-    display:flex; align-items:center; gap:6px;
-  }
-  .panel-tag .live{
-    width:6px; height:6px; border-radius:50%; background: var(--accent);
-    animation: pulse 1.8s infinite;
-  }
-  @keyframes pulse{ 0%,100%{ opacity:1; } 50%{ opacity:0.35; } }
-
-  .panel-grid{
-    display:grid; grid-template-columns: 1fr 1fr; gap: 12px;
-    margin-bottom: 14px;
-  }
-  .panel-card{
-    background: rgba(255,255,255,0.03);
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    padding: 14px;
-  }
-  .panel-card .label{
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    color: var(--ink-dim);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    margin-bottom: 8px;
-  }
-  .panel-card .value{
-    font-family: var(--font-display);
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--ink);
-  }
-  .panel-card .value.up{ color: var(--accent); }
-
-  .panel-row{
-    background: rgba(255,255,255,0.025);
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    padding: 12px 14px;
-    display:flex; align-items:center; justify-content:space-between;
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    color: var(--ink-dim);
-  }
-  .panel-row .status{
-    color: var(--accent);
-    background: rgba(92,124,250,0.12);
-    padding: 3px 9px;
-    border-radius: 999px;
-    font-size: 0.68rem;
-  }
-
-  /* ---------- SECTION HEADERS ---------- */
-  .section-head{ margin-bottom: 52px; max-width: 620px; }
-  .section-head .eyebrow{ margin-bottom: 16px; }
-  .section-head h2{
-    font-family: var(--font-display);
-    font-size: clamp(1.7rem, 3vw, 2.3rem);
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    margin-bottom: 14px;
-  }
-  .section-head p{ color: var(--ink-dim); font-size: 1.02rem; }
-
-  section.pad{ padding: 108px 0; }
-  section.pad.alt{
-    background: linear-gradient(180deg, transparent, rgba(255,255,255,0.015), transparent);
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-  }
-
-  /* ---------- SERVICES ---------- */
-  .services-grid{
-    display:grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
-  }
-  .service-card{
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: 26px 22px;
-    transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
-  }
-  .service-card:hover{
-    transform: translateY(-4px);
-    border-color: rgba(92,124,250,0.32);
-    background: rgba(255,255,255,0.05);
-  }
-  .service-icon{
-    width: 42px; height:42px;
-    border-radius: 10px;
-    background: rgba(92,124,250,0.1);
-    display:flex; align-items:center; justify-content:center;
-    margin-bottom: 18px;
-    color: var(--accent);
-  }
-  .service-card h3{
-    font-family: var(--font-display);
-    font-size: 1.06rem;
-    font-weight: 600;
-    margin-bottom: 10px;
-  }
-  .service-card p{ color: var(--ink-dim); font-size: 0.92rem; }
-
-  /* ---------- HİZMET VERDİĞİMİZ FİRMALAR ---------- */
-  .clients-grid{
-    display:grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-  .client-card{
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    padding: 44px 36px;
-    text-align:center;
-    display:flex; flex-direction:column; align-items:center;
-    transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
-  }
-  .client-card:hover{
-    transform: translateY(-4px);
-    border-color: rgba(92,124,250,0.32);
-    background: rgba(255,255,255,0.05);
-  }
-  .client-logo{
-    width: 88px; height:88px;
-    border-radius: 50%;
-    margin-bottom: 22px;
-    display:flex; align-items:center; justify-content:center;
-    overflow:hidden;
-    background: linear-gradient(155deg, var(--navy-soft), var(--navy-elevated));
-    border: 1px solid var(--line);
-  }
-  .client-logo img{ width:100%; height:100%; object-fit:cover; }
-  .client-logo .initials{
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1.5rem;
-    color: var(--accent);
-  }
-  .client-tag{
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    color: var(--accent);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 10px;
-  }
-  .client-card h3{
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-  }
-  .client-card p{ color: var(--ink-dim); font-size: 0.92rem; max-width: 320px; }
-
-  /* ---------- ABOUT ---------- */
-  .about{
-    display:grid;
-    grid-template-columns: 0.9fr 1.1fr;
-    gap: 56px;
-    align-items:center;
-  }
-  .about-visual{
-    aspect-ratio: 1/1;
-    max-width: 340px;
-    border-radius: 20px;
-    background: linear-gradient(155deg, var(--navy-soft), var(--navy-deep));
-    border: 1px solid var(--line);
-    display:flex; align-items:center; justify-content:center;
-    position:relative;
-    overflow:hidden;
-  }
-  .about-visual .code{
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    color: var(--accent);
-    line-height: 1.9;
-    opacity: 0.9;
-    padding: 24px;
-  }
-  .about-visual .code .dim{ color: var(--ink-dim); }
-  .about-visual .code .ink-t{ color: var(--ink); }
-
-  .about h2{
-    font-family: var(--font-display);
-    font-size: clamp(1.7rem, 3vw, 2.2rem);
-    font-weight: 700;
-    margin-bottom: 20px;
-  }
-  .about p{ color: var(--ink-dim); margin-bottom: 16px; font-size: 1rem; }
-  .about-stats{
-    display:flex; gap: 32px;
-    margin-top: 26px;
-    padding-top: 26px;
-    border-top: 1px solid var(--line);
-  }
-  .about-stats .stat b{
-    font-family: var(--font-display);
-    font-size: 1.7rem;
-    color: var(--accent);
-    display:block;
-  }
-  .about-stats .stat span{
-    font-size: 0.8rem;
-    color: var(--ink-dim);
-  }
-
-  /* ---------- CONTACT ---------- */
-  .contact-box{
-    background: linear-gradient(155deg, var(--navy-soft), var(--navy));
-    border: 1px solid var(--line);
-    border-radius: 22px;
-    padding: 64px 48px;
-    text-align:center;
-    position:relative;
-    overflow:hidden;
-  }
-  .contact-box::before{
-    content:"";
-    position:absolute; top:-40%; right:-10%;
-    width: 420px; height:420px;
-    background: radial-gradient(circle, rgba(92,124,250,0.14), transparent 70%);
-    pointer-events:none;
-  }
-  .contact-box h2{
-    font-family: var(--font-display);
-    font-size: clamp(1.7rem, 3.4vw, 2.4rem);
-    font-weight: 700;
-    margin-bottom: 16px;
-  }
-  .contact-box p{ color: var(--ink-dim); max-width: 480px; margin: 0 auto 34px; }
-  .contact-ctas{ display:flex; gap: 16px; justify-content:center; flex-wrap:wrap; }
-  .contact-detail{
-    margin-top: 30px;
-    font-family: var(--font-mono);
-    font-size: 0.86rem;
-    color: var(--ink-dim);
-  }
-  .contact-detail a{ color: var(--accent); }
-
-  /* ---------- FOOTER ---------- */
-  footer{
-    padding: 34px 0 46px;
-    text-align:center;
-    color: var(--ink-dim);
-    font-size: 0.85rem;
-    border-top: 1px solid var(--line);
-  }
-  footer .footer-logo{
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1rem;
-    margin: 0 auto 10px;
-    opacity: 0.85;
-  }
-  footer .mono{ font-family: var(--font-mono); font-size: 0.78rem; opacity: 0.7; margin-top: 6px; }
-
-  /* ---------- WHATSAPP FLOAT ---------- */
-  .wa-float{
-    position: fixed;
-    bottom: 26px; right: 26px;
-    width: 58px; height:58px;
-    border-radius: 50%;
-    background: #25D366;
-    display:flex; align-items:center; justify-content:center;
-    box-shadow: 0 10px 30px rgba(37,211,102,0.4);
-    z-index: 60;
-    transition: transform 0.2s ease;
-  }
-  .wa-float:hover{ transform: scale(1.08); }
-
-  /* ---------- REVEAL ---------- */
-  .reveal{ opacity:0; transform: translateY(22px); transition: opacity 0.7s ease, transform 0.7s ease; }
-  .reveal.in{ opacity:1; transform: translateY(0); }
-
-  /* ---------- RESPONSIVE ---------- */
-  @media (max-width: 940px){
-    .services-grid{ grid-template-columns: repeat(2, 1fr); }
-    .intro-block{ grid-template-columns: 1fr; padding-top: 40px; }
-    .hero-cinema{ padding: 110px 20px 80px; }
-    .about{ grid-template-columns: 1fr; }
-    .about-visual{ max-width: 260px; margin: 0 auto; }
-    .clients-grid{ grid-template-columns: 1fr; }
-  }
-
-  @media (max-width: 720px){
-    .nav-links{
-      position:fixed; top:72px; left:0; right:0;
-      background: rgba(18,21,42,0.98);
-      backdrop-filter: blur(14px);
-      flex-direction:column;
-      align-items:flex-start;
-      padding: 26px 28px 34px;
-      gap: 22px;
-      border-bottom: 1px solid var(--line);
-      transform: translateY(-130%);
-      transition: transform 0.3s ease;
-    }
-    .nav-links.open{ transform: translateY(0); }
-    .menu-btn{ display:flex; }
-    .nav-cta{ order:5; }
-    .services-grid{ grid-template-columns: 1fr; }
-    .contact-box{ padding: 44px 24px; }
-    .wrap{ padding: 0 20px; }
+    html{scroll-behavior:auto;}
+    *{animation:none !important;transition:none !important;}
   }
 </style>
 </head>
 <body>
 
-<header>
-  <nav class="wrap nav">
-    <a href="/" class="logo">KEB Studio</a>
-    <ul class="nav-links" id="navLinks">
+<header class="nav">
+  <div class="wrap">
+    <a href="#" class="logo"><span class="dot"></span>KEB STUDIO</a>
+    <ul class="nav-links">
       <li><a href="#hizmetler">Hizmetler</a></li>
-      <li><a href="#projeler">Projeler</a></li>
+      <li><a href="#isler">İşler</a></li>
       <li><a href="#hakkinda">Hakkında</a></li>
-      <li><a href="#iletisim" class="nav-cta">İletişime Geç</a></li>
+      <li><a href="#iletisim">İletişim</a></li>
     </ul>
-    <button class="menu-btn" id="menuBtn" aria-label="Menüyü aç">
-      <span></span><span></span><span></span>
+    <a href="mailto:info@kebstudio.com.tr" class="btn btn-primary nav-cta">Proje Anlat</a>
+    <button class="nav-toggle" aria-label="Menüyü aç" id="navToggle">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke-width="1.6" stroke-linecap="round"><path d="M2 5h16M2 10h16M2 15h16"/></svg>
     </button>
+  </div>
+  <nav class="mobile-menu" id="mobileMenu">
+    <a href="#hizmetler">Hizmetler</a>
+    <a href="#isler">İşler</a>
+    <a href="#hakkinda">Hakkında</a>
+    <a href="#iletisim">İletişim</a>
+    <a href="mailto:info@kebstudio.com.tr" style="color:var(--amber);">Proje Anlat →</a>
   </nav>
 </header>
 
-<main id="top">
-
-  <!-- HERO: TAM EKRAN SİNEMATİK GİRİŞ -->
-  <section class="hero-cinema" id="heroCinema">
-    <canvas id="networkCanvas"></canvas>
-    <div class="hero-vignette"></div>
-    <div class="hero-cinema-content">
-      <div class="eyebrow"><span class="dot"></span>AI destekli yazılım stüdyosu</div>
-      <h1 class="hero-logo-text">KEB Studio</h1>
-      <p class="hero-tagline">Fikirden çalışan panele — web sitesi, e-ticaret ve otomasyon çözümleri.</p>
-    </div>
-    <div class="scroll-cue"><span class="line"></span>Kaydır</div>
-  </section>
-
-  <!-- İNTRO / DEĞER ÖNERİSİ -->
-  <section class="wrap intro-block">
-    <div>
-      <h1>Fikrinizi <em>çalışan bir panele</em> dönüştürüyoruz.</h1>
-      <p class="lead">KEB Studio; web sitesi, e-ticaret ve iş otomasyonu çözümlerini yapay zeka destekli geliştirme yaklaşımıyla hızlı, sade ve uygun maliyetli şekilde hayata geçirir. Süslü vaatler değil, gerçekten kullanılan sistemler kurarız.</p>
-      <div class="hero-ctas">
-        <a href="#iletisim" class="btn btn-primary">İletişime Geç</a>
-        <a href="#projeler" class="btn btn-ghost">Projelere Göz At</a>
+<section class="hero on-dark">
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="eyebrow">Web Sitesi &amp; İş Otomasyonu</span>
+      <h1>Elle yürüttüğünüz işi, kendi kendine çalışan bir sisteme çeviriyoruz.</h1>
+      <p class="hero-sub">KEB Studio; bayi takibi, kasa kaydı ve sipariş süreci gibi excel ile kağıt arasında sıkışan işleri, işletmenize özel web sitesi ve yazılımlara taşır.</p>
+      <div class="hero-actions">
+        <a href="mailto:info@kebstudio.com.tr" class="btn btn-primary">Projeni Anlat</a>
+        <a href="#isler" class="link-scroll">İşlerimize bak ↓</a>
       </div>
     </div>
-
-    <div class="panel-mock">
-      <div class="panel-top">
-        <div class="panel-dots"><span></span><span></span><span></span></div>
-        <div class="panel-tag"><span class="live"></span>canlı panel örneği</div>
-      </div>
-      <div class="panel-grid">
-        <div class="panel-card">
-          <div class="label">Stok Kalemi</div>
-          <div class="value up">1.284</div>
-        </div>
-        <div class="panel-card">
-          <div class="label">Aktif Bayi</div>
-          <div class="value">37</div>
-        </div>
-        <div class="panel-card">
-          <div class="label">Bugünkü Sipariş</div>
-          <div class="value">12</div>
-        </div>
-        <div class="panel-card">
-          <div class="label">Cari Bakiye</div>
-          <div class="value up">₺48.250</div>
-        </div>
+    <div class="panel" id="heroPanel">
+      <div class="panel-head"><span>Sistem Durumu</span><span>Canlı</span></div>
+      <div class="panel-row">
+        <span class="label"><span class="led"></span>Bayi Portalı</span>
+        <span class="status">Çevrimiçi</span>
       </div>
       <div class="panel-row">
-        <span>#SP-1042 · Bayi: Toros Oto</span>
-        <span class="status">Onaylandı</span>
+        <span class="label"><span class="led"></span>Kasa Föyü</span>
+        <span class="status">Senkron</span>
       </div>
+      <div class="panel-row">
+        <span class="label"><span class="led"></span>Sipariş Akışı</span>
+        <span class="status">Aktif</span>
+      </div>
+      <p class="panel-caption">Çukurova Otomotiv ve Spraybox için geliştirdiğimiz sistemlerden.</p>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- HİZMETLER -->
-  <section class="pad alt" id="hizmetler">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <div class="eyebrow"><span class="dot"></span>Hizmetler</div>
-        <h2>İşletmenizin ihtiyacına göre dört ana çözüm</h2>
-        <p>Her proje, işin gerçekten ihtiyaç duyduğu kadar basit ya da kapsamlı kurulur — gereksiz karmaşıklık yok.</p>
+<section class="trust">
+  <div class="wrap">
+    <span class="trust-label">Birlikte çalıştığımız işletmeler</span>
+    <div class="trust-logos">
+      <span>Çukurova Otomotiv</span>
+      <span>Spraybox</span>
+    </div>
+  </div>
+</section>
+
+<section class="section on-light" id="hizmetler">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Hizmetler</span>
+      <h2>İki şey yapıyoruz, ikisini de sonuna kadar yapıyoruz.</h2>
+    </div>
+    <div class="services-list">
+      <div class="service-row">
+        <svg class="service-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="8" width="36" height="28" rx="2"/><path d="M4 15h36"/><circle cx="10" cy="11.5" r="1"/><circle cx="14" cy="11.5" r="1"/></svg>
+        <div>
+          <h3 class="service-title">Web Sitesi Tasarımı</h3>
+          <p class="service-desc">Kurumsal tanıtım siteleri ve e-ticaret altyapıları kuruyoruz. Şablon bir tema değil, markanızın diliyle konuşan bir arayüz.</p>
+          <span class="example">Örnek — Spraybox: oto kimyasalları için B2B/B2C e-ticaret sitesi</span>
+        </div>
       </div>
-
-      <div class="services-grid">
-        <div class="service-card reveal">
-          <div class="service-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M4 9h16"/><circle cx="7" cy="6.5" r="0.6" fill="currentColor"/></svg>
-          </div>
-          <h3>Web Sitesi Geliştirme</h3>
-          <p>Kurumsal tanıtım ve portfolyo siteleri; hızlı yüklenen, mobil uyumlu, sade ve modern tasarım.</p>
-        </div>
-
-        <div class="service-card reveal">
-          <div class="service-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18l-2 9H5L3 6z"/><path d="M3 6l-1-3"/><circle cx="8" cy="20" r="1.3"/><circle cx="17" cy="20" r="1.3"/></svg>
-          </div>
-          <h3>E-Ticaret Çözümleri</h3>
-          <p>B2B ve B2C satış siteleri; ürün kataloğu, sepet, sipariş akışı ve ödeme entegrasyonu ile.</p>
-        </div>
-
-        <div class="service-card reveal">
-          <div class="service-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 10h18"/><path d="M7 14h4"/></svg>
-          </div>
-          <h3>İş Otomasyonu & Bayi Portalları</h3>
-          <p>Stok, sipariş ve cari hesap takibi yapan; işletmenize özel yönetim panelleri kurarız.</p>
-        </div>
-
-        <div class="service-card reveal">
-          <div class="service-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>
-          </div>
-          <h3>Danışmanlık</h3>
-          <p>Hangi teknolojinin, hangi bütçeyle işletmenize uygun olduğu konusunda yol gösteririz.</p>
+      <div class="service-row">
+        <svg class="service-icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="6" y="16" width="32" height="12" rx="6"/><circle cx="16" cy="22" r="4.2"/></svg>
+        <div>
+          <h3 class="service-title">İş Otomasyonu Yazılımı</h3>
+          <p class="service-desc">Bayi takibi, kasa kaydı, stok ve sipariş süreçleri gibi elle yürüyen işleri, işletmenize özel yazılıma taşıyoruz.</p>
+          <span class="example">Örnek — Çukurova Otomotiv: bayiler için B2B otomasyon portalı</span>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- FİRMALAR -->
-  <section class="pad" id="projeler">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <div class="eyebrow"><span class="dot"></span>Referanslar</div>
-        <h2>Hizmet verdiğimiz firmalar</h2>
-        <p>KEB Studio'nun kurulmasından önce, aynı yaklaşımla sistem kurduğumuz iki firma.</p>
+<section class="section on-light" id="isler" style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">İşler</span>
+      <h2>Kağıttan yazılıma taşınan işler.</h2>
+    </div>
+
+    <div class="work-item">
+      <div class="work-text">
+        <span class="eyebrow">Çukurova Otomotiv</span>
+        <h3 class="work-title">Bayi Portalı</h3>
+        <p class="work-desc">Bayilerle sipariş ve stok takibi telefon ve excel üzerinden yürüyordu. Bayilerin kendi hesaplarından sipariş girip stok görebildiği bir B2B portal kurduk.</p>
       </div>
+      <div class="mock">
+        <div class="mock-bar" style="width:40%;"></div>
+        <div class="mock-row"><div class="cell amber"></div><div class="cell"></div><div class="cell"></div></div>
+        <div class="mock-row"><div class="cell amber"></div><div class="cell"></div><div class="cell"></div></div>
+        <div class="mock-row"><div class="cell amber"></div><div class="cell"></div><div class="cell"></div></div>
+      </div>
+    </div>
 
-      <div class="clients-grid">
-        <div class="client-card reveal">
-          <div class="client-logo"><img src="cukurova-logo.png" alt="Çukurova Otomotiv"></div>
-          <div class="client-tag">B2B Bayi Otomasyonu</div>
-          <h3>Çukurova Otomotiv</h3>
-          <p>Oto yedek parça bayi ağı için ürün arama, sipariş ve cari hesap takibi yapan tam kapsamlı yönetim sistemi.</p>
-        </div>
-
-        <div class="client-card reveal">
-          <div class="client-logo"><img src="spraybox-logo.png" alt="Spraybox"></div>
-          <div class="client-tag">B2B / B2C E-Ticaret</div>
-          <h3>Spraybox</h3>
-          <p>Otomotiv kimyasalları markası için, kurumsal bayilerin ve bireysel müşterilerin aynı platformdan sipariş verebildiği e-ticaret sitesi.</p>
+    <div class="work-item">
+      <div class="work-text">
+        <span class="eyebrow">Spraybox</span>
+        <h3 class="work-title">B2B/B2C E-Ticaret</h3>
+        <p class="work-desc">Oto kimyasalları markası Spraybox için hem bayilere hem son kullanıcıya satış yapabilen bir e-ticaret sitesi geliştirdik.</p>
+      </div>
+      <div class="mock">
+        <div class="mock-bar" style="width:30%;"></div>
+        <div class="mock-grid">
+          <div class="tile"></div><div class="tile"></div><div class="tile"></div>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- HAKKINDA -->
-  <section class="pad alt" id="hakkinda">
-    <div class="wrap about">
-      <div class="about-visual reveal">
-        <div class="code">
-          <div><span class="dim">// yaklaşım</span></div>
-          <div>const <span class="ink-t">sistem</span> = {</div>
-          <div>&nbsp;&nbsp;hız: <span class="ink-t">"yüksek"</span>,</div>
-          <div>&nbsp;&nbsp;maliyet: <span class="ink-t">"düşük"</span>,</div>
-          <div>&nbsp;&nbsp;kalite: <span class="ink-t">"gerçek"</span></div>
-          <div>};</div>
-        </div>
+    <div class="work-item">
+      <div class="work-text">
+        <span class="eyebrow">Kasa Föyü</span>
+        <h3 class="work-title">Günlük Kasa Uygulaması</h3>
+        <p class="work-desc">Çukurova Otomotiv'in günlük kasa kaydını kağıt föyden dijitale taşıyan bir uygulama üzerinde çalışıyoruz — şu an geliştirme aşamasında.</p>
       </div>
-      <div class="reveal">
-        <div class="eyebrow"><span class="dot"></span>Hakkında</div>
-        <h2>Konuşmakla değil, kurup çalıştırarak kanıtlıyoruz.</h2>
-        <p>KEB Studio, yapay zeka destekli geliştirme yaklaşımıyla çalışan bir stüdyo. Fikirleri doğrudan çalışan sistemlere dönüştürüyoruz: ürün arama, sipariş yönetimi, stok ve cari hesap takibi yapan tam kapsamlı bir bayi otomasyon portalı ve B2B/B2C satış yapabilen bir e-ticaret sitesi, bugüne kadar hayata geçirdiğimiz projelerden ikisi.</p>
-        <p>Her projede aynı prensiple ilerliyoruz: gereksiz karmaşıklığa boğmadan, işin gerçekten neye ihtiyacı varsa onu kurmak — hızlı, sade ve uygun maliyetli şekilde.</p>
-        <div class="about-stats">
-          <div class="stat"><b>2</b><span>Canlı proje</span></div>
-          <div class="stat"><b>%0</b><span>Gereksiz karmaşıklık</span></div>
-          <div class="stat"><b>AI</b><span>Destekli geliştirme</span></div>
-        </div>
+      <div class="mock">
+        <div class="mock-bar" style="width:50%;"></div>
+        <div class="mock-row"><div class="cell"></div><div class="cell amber"></div></div>
+        <div class="mock-row"><div class="cell"></div><div class="cell amber"></div></div>
+        <div class="mock-row"><div class="cell"></div><div class="cell amber"></div></div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- İLETİŞİM -->
-  <section class="pad" id="iletisim">
-    <div class="wrap">
-      <div class="contact-box reveal">
-        <h2>Bir fikriniz mi var? Konuşalım.</h2>
-        <p>İşletmeniz için web sitesi, e-ticaret veya otomasyon ihtiyacınızı anlatın, size en uygun ve en hızlı çözümü birlikte planlayalım.</p>
-        <div class="contact-ctas">
-          <a href="https://wa.me/905459607405" target="_blank" rel="noopener" class="btn btn-primary">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-3.1.82.83-3-.2-.32A8.2 8.2 0 1 1 12 20.2zm4.5-6.15c-.25-.12-1.45-.72-1.67-.8-.22-.08-.38-.12-.55.12-.16.24-.63.8-.77.96-.14.16-.28.18-.53.06-.25-.12-1.04-.38-1.98-1.2-.73-.65-1.22-1.46-1.37-1.7-.14-.24-.02-.37.1-.5.11-.1.25-.28.37-.42.12-.14.16-.24.25-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.32-.75-1.8-.2-.48-.4-.4-.55-.4h-.47c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.5.58.18 1.1.16 1.52.1.46-.07 1.45-.6 1.65-1.17.2-.58.2-1.07.14-1.17-.06-.1-.22-.16-.47-.28z"/></svg>
-            WhatsApp ile Yaz
-          </a>
-          <a href="mailto:info@kebstudio.com.tr" class="btn btn-ghost">info@kebstudio.com.tr</a>
-        </div>
-        <div class="contact-detail">Ya da doğrudan yaz: <a href="mailto:info@kebstudio.com.tr">info@kebstudio.com.tr</a></div>
-      </div>
+<section class="section about" id="hakkinda">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--amber);margin-bottom:var(--sp-3);display:inline-flex;">Hakkında</span>
+    <div class="about-quote">
+      <p>“KEB Studio'yu iktisat okuyan biri olarak kurdum. Her projeye yazılımcı gibi değil, o süreci her gün elle yürüten biri gibi bakıyorum — hangi adım gereksiz, hangi bilgi hep aynı yerde kayboluyor. Yazılım ondan sonra geliyor.”</p>
+      <p class="about-role">KEB Studio, Kurucu</p>
     </div>
-  </section>
+  </div>
+</section>
 
-</main>
-
-<a href="https://wa.me/905459607405" target="_blank" rel="noopener" class="wa-float" aria-label="WhatsApp ile iletişime geç">
-  <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.15l-.3-.18-3.1.82.83-3-.2-.32A8.2 8.2 0 1 1 12 20.2zm4.5-6.15c-.25-.12-1.45-.72-1.67-.8-.22-.08-.38-.12-.55.12-.16.24-.63.8-.77.96-.14.16-.28.18-.53.06-.25-.12-1.04-.38-1.98-1.2-.73-.65-1.22-1.46-1.37-1.7-.14-.24-.02-.37.1-.5.11-.1.25-.28.37-.42.12-.14.16-.24.25-.4.08-.16.04-.3-.02-.42-.06-.12-.55-1.32-.75-1.8-.2-.48-.4-.4-.55-.4h-.47c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.5.58.18 1.1.16 1.52.1.46-.07 1.45-.6 1.65-1.17.2-.58.2-1.07.14-1.17-.06-.1-.22-.16-.47-.28z"/></svg>
-</a>
+<section class="contact" id="iletisim">
+  <div class="wrap">
+    <h2>Sıradaki iş senin işin olsun.</h2>
+    <p class="contact-sub">Projeni anlat, birlikte nereden başlayacağımıza bakalım.</p>
+    <div class="contact-actions">
+      <a href="mailto:info@kebstudio.com.tr" class="btn-dark">info@kebstudio.com.tr →</a>
+    </div>
+  </div>
+</section>
 
 <footer>
-  <div class="wrap">
-    <div class="footer-logo">KEB Studio</div>
-    <div>© 2026 KEB Studio. Tüm hakları saklıdır.</div>
-    <div class="mono">info@kebstudio.com.tr</div>
+  <div class="wrap footer-wrap">
+    <div>
+      <a href="#" class="logo"><span class="dot"></span>KEB STUDIO</a>
+    </div>
+    <div class="footer-links">
+      <a href="#hizmetler">Hizmetler</a>
+      <a href="#isler">İşler</a>
+      <a href="#hakkinda">Hakkında</a>
+      <a href="mailto:info@kebstudio.com.tr">İletişim</a>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <span>© 2026 KEB Studio</span>
+    <div class="footer-links">
+      <a href="#" id="igLink">Instagram</a>
+      <a href="#" id="fbLink">Facebook</a>
+    </div>
   </div>
 </footer>
 
 <script>
-  // Bilgisayar/ağ temalı arkaplan animasyonu
-  (function(){
-    const canvas = document.getElementById('networkCanvas');
-    const ctx = canvas.getContext('2d');
-    const hero = document.getElementById('heroCinema');
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let w, h, particles = [];
+  // mobile nav toggle
+  var navToggle = document.getElementById('navToggle');
+  var mobileMenu = document.getElementById('mobileMenu');
+  navToggle.addEventListener('click', function(){
+    mobileMenu.classList.toggle('open');
+  });
+  mobileMenu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ mobileMenu.classList.remove('open'); });
+  });
 
-    function resize(){
-      w = canvas.width = hero.offsetWidth;
-      h = canvas.height = hero.offsetHeight;
-      const count = Math.min(70, Math.round((w * h) / 16000));
-      particles = Array.from({ length: count }, () => ({
-        x: Math.random() * w,
-        y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.25,
-        vy: (Math.random() - 0.5) * 0.25
-      }));
-    }
+  // hero panel: light up indicators after load
+  window.addEventListener('load', function(){
+    setTimeout(function(){
+      document.getElementById('heroPanel').classList.add('lit');
+    }, 300);
+  });
 
-    function draw(){
-      ctx.clearRect(0, 0, w, h);
-      const maxDist = Math.min(140, w / 7);
-
-      for(let i = 0; i < particles.length; i++){
-        const p = particles[i];
-        p.x += p.vx; p.y += p.vy;
-        if(p.x < 0 || p.x > w) p.vx *= -1;
-        if(p.y < 0 || p.y > h) p.vy *= -1;
-
-        for(let j = i + 1; j < particles.length; j++){
-          const q = particles[j];
-          const dx = p.x - q.x, dy = p.y - q.y;
-          const dist = Math.sqrt(dx*dx + dy*dy);
-          if(dist < maxDist){
-            ctx.strokeStyle = `rgba(92,124,250,${0.16 * (1 - dist / maxDist)})`;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(q.x, q.y);
-            ctx.stroke();
-          }
+  // section reveal on scroll
+  var reveals = document.querySelectorAll('.section-head');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
         }
-      }
-      for(const p of particles){
-        ctx.fillStyle = 'rgba(245,246,250,0.55)';
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 1.6, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
-
-    function loop(){
-      draw();
-      if(!reduceMotion) requestAnimationFrame(loop);
-    }
-
-    resize();
-    draw();
-    if(!reduceMotion) requestAnimationFrame(loop);
-    window.addEventListener('resize', resize);
-  })();
-
-  // Mobil menü
-  const menuBtn = document.getElementById('menuBtn');
-  const navLinks = document.getElementById('navLinks');
-  menuBtn.addEventListener('click', () => {
-    navLinks.classList.toggle('open');
-  });
-  navLinks.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => navLinks.classList.remove('open'));
-  });
-
-  // Scroll reveal
-  const revealEls = document.querySelectorAll('.reveal');
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if(entry.isIntersecting){
-        entry.target.classList.add('in');
-        io.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.15 });
-  revealEls.forEach(el => io.observe(el));
+      });
+    }, {threshold:0.2});
+    reveals.forEach(function(el){ io.observe(el); });
+  } else {
+    reveals.forEach(function(el){ el.classList.add('in-view'); });
+  }
 </script>
 
 </body>
