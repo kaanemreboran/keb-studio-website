@@ -116,7 +116,7 @@
   }
   .nav .wrap{
     display:flex;align-items:center;justify-content:space-between;
-    height:136px;
+    height:96px;
   }
   .logo{
     display:flex;align-items:center;gap:10px;
@@ -128,7 +128,7 @@
     text-decoration:none;
   }
   .logo .dot{width:9px;height:9px;border-radius:2px;background:var(--amber);}
-  .logo img{height:150px;width:auto;border-radius:3px;display:block;}
+  .logo img{height:64px;width:auto;border-radius:3px;display:block;}
   .nav-links{
     display:none;
     gap:var(--sp-4);
@@ -437,7 +437,13 @@
     font-size:17px;
     color:rgba(23,25,28,0.75);
   }
-  .contact-actions{margin-top:var(--sp-4);}
+  .contact-actions{margin-top:var(--sp-4);display:flex;flex-wrap:wrap;gap:var(--sp-2);}
+  .btn-outline-dark{
+    background:transparent;
+    color:var(--graphite);
+    border:1.5px solid var(--graphite);
+  }
+  .btn-outline-dark:hover{background:var(--graphite);color:var(--paper);}
   .btn-dark{
     background:var(--graphite);
     color:var(--paper);
@@ -639,6 +645,7 @@
     <p class="contact-sub">Projeni anlat, birlikte nereden başlayacağımıza bakalım.</p>
     <div class="contact-actions">
       <a href="mailto:info@kebstudio.com.tr" class="btn-dark">info@kebstudio.com.tr →</a>
+      <a href="https://wa.me/905459607405" target="_blank" rel="noopener" class="btn-dark btn-outline-dark">WhatsApp'tan yaz →</a>
     </div>
   </div>
 </section>
@@ -658,8 +665,9 @@
   <div class="wrap footer-bottom">
     <span>© 2026 KEB Studio</span>
     <div class="footer-links">
-      <a href="#" id="igLink">Instagram</a>
-      <a href="#" id="fbLink">Facebook</a>
+      <a href="https://instagram.com/studiokeb" id="igLink" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.facebook.com/profile.php?id=61591934456966" id="fbLink" target="_blank" rel="noopener">Facebook</a>
+      <a href="https://wa.me/905459607405" id="waLink" target="_blank" rel="noopener">WhatsApp</a>
     </div>
   </div>
 </footer>
