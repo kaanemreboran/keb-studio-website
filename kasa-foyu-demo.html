@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kasa Föyü — Demo | KEB Studio</title>
+<meta name="description" content="Kasa Föyü'nün canlı, veri girmekte özgür olduğunuz demo sürümü. Örnek verilerle çalışır, gerçek bir işletmeye bağlı değildir.">
+<style>
+  :root{
+    --navy-950:#0f1530; --navy-900:#151d3d; --navy-800:#1a234a; --navy-700:#232f60;
+    --indigo:#6366f1; --indigo-light:#818cf8;
+    --ink:#eef0ff; --ink-dim:#a8b0d8; --line:#2a3560;
+    --green:#22c55e; --red:#ef4444; --amber:#f59e0b; --card:#161f42; --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--navy-950); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    min-height:100vh;
+  }
+  a{color:var(--indigo-light);}
+
+  #demoBanner{
+    position:sticky;top:0;z-index:600;
+    background:#1a1033;border-bottom:1px solid #3a2b6b;
+    color:#d9c9ff;
+    display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;
+    padding:9px 14px;font-size:12.5px;font-weight:600;text-align:center;
+  }
+  #demoBanner .reset-btn{
+    background:none;border:1px solid #4a3a8a;color:#d9c9ff;border-radius:6px;
+    padding:4px 10px;font-size:11.5px;cursor:pointer;font-family:inherit;
+  }
+  #demoBanner .reset-btn:hover{border-color:var(--indigo-light);color:#fff;}
+  #demoBanner .back-link{color:#d9c9ff;text-decoration:underline;}
+
+  header{
+    background:linear-gradient(135deg,var(--navy-900),var(--navy-800));
+    border-bottom:1px solid var(--line);
+    padding:14px 20px;display:flex;align-items:center;justify-content:space-between;
+    gap:12px;flex-wrap:wrap;position:sticky;top:37px;z-index:50;
+  }
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--indigo-light);box-shadow:0 0 10px var(--indigo-light);}
+  .brand h1{font-size:16px;margin:0;font-weight:700;}
+  .brand span{display:block;font-size:11px;color:var(--ink-dim);font-weight:500;}
+  .badge{
+    font-size:10.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;
+    background:var(--indigo);color:#fff;padding:3px 9px;border-radius:20px;
+  }
+
+  nav.tabs{
+    display:flex;gap:6px;padding:10px 20px 0;background:var(--navy-950);
+    border-bottom:1px solid var(--line);
+  }
+  nav.tabs button{
+    background:none;border:none;color:var(--ink-dim);
+    padding:10px 16px;font-size:13.5px;font-weight:600;cursor:pointer;
+    border-bottom:2px solid transparent;font-family:inherit;
+  }
+  nav.tabs button.active{color:var(--ink);border-bottom-color:var(--indigo-light);}
+
+  main{padding:18px 20px 60px;max-width:1200px;margin:0 auto;}
+  .hidden{display:none !important;}
+
+  .toolbar{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:12px 14px;margin-bottom:16px;
+  }
+  .toolbar label{font-size:12px;color:var(--ink-dim);margin-right:6px;}
+  input,select{
+    background:var(--navy-900);border:1px solid var(--line);color:var(--ink);
+    border-radius:7px;padding:8px 10px;font-size:13.5px;font-family:inherit;
+  }
+  input:focus,select:focus{outline:none;border-color:var(--indigo-light);}
+  .spacer{flex:1;}
+
+  button.btn{
+    background:var(--indigo);color:#fff;border:none;border-radius:7px;
+    padding:9px 16px;font-size:13.5px;font-weight:600;cursor:pointer;font-family:inherit;
+  }
+  button.btn:hover{background:var(--indigo-light);}
+  button.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink);}
+  button.btn.ghost:hover{border-color:var(--indigo-light);}
+
+  .grid{display:grid;grid-template-columns:1fr 320px;gap:16px;align-items:start;}
+  @media (max-width:900px){.grid{grid-template-columns:1fr;}}
+
+  .entry-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
+  .entry-tab-btn{
+    display:flex;flex-direction:column;align-items:flex-start;gap:5px;
+    background:var(--card);border:1px solid var(--line);border-radius:10px;
+    padding:12px 14px;cursor:pointer;text-align:left;color:var(--ink);font-family:inherit;
+  }
+  .entry-tab-btn:hover{border-color:var(--indigo-light);}
+  .entry-tab-btn.active{border-color:var(--indigo-light);background:var(--navy-800);box-shadow:0 0 0 1px var(--indigo-light) inset;}
+  .entry-tab-label{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-dim);display:flex;align-items:center;gap:7px;}
+  .entry-tab-btn.active .entry-tab-label{color:var(--indigo-light);}
+  .entry-tab-total{font-size:17px;font-weight:800;font-variant-numeric:tabular-nums;}
+  @media (max-width:820px){.entry-tabs{grid-template-columns:repeat(2,1fr);}}
+
+  .method-list{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+  .method-row{border-bottom:1px solid var(--line);}
+  .method-row:last-child{border-bottom:none;}
+  .method-row-head{display:flex;align-items:center;gap:10px;padding:13px 16px;cursor:pointer;user-select:none;}
+  .method-row-head:hover{background:var(--navy-800);}
+  .method-row-head .chevron{display:inline-block;color:var(--ink-dim);font-size:10px;width:12px;transition:transform .15s ease;}
+  .method-row.open .method-row-head .chevron{transform:rotate(90deg);}
+  .method-row-head .method-name{font-weight:600;font-size:13.5px;flex:1;}
+  .method-row-head .method-total{font-variant-numeric:tabular-nums;font-size:13px;color:var(--ink-dim);}
+  .method-row-head .method-total.has-value{color:var(--ink);font-weight:700;}
+  .method-row-body{padding:2px 16px 14px;}
+  .method-row-body.hidden{display:none;}
+  .color-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;flex-shrink:0;}
+
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--ink-dim);padding:6px 8px;font-weight:700;}
+  td{padding:4px 6px;}
+  tr.row-line td{border-bottom:1px solid var(--line);}
+  td input{width:100%;padding:6px 8px;font-size:13px;}
+  td.tutar-col input{text-align:right;}
+  td.action-col{width:34px;text-align:center;}
+  .icon-btn{background:none;border:none;color:var(--ink-dim);cursor:pointer;font-size:15px;padding:2px 6px;border-radius:5px;}
+  .icon-btn:hover{color:var(--red);background:#241a1a;}
+  .add-row-btn{
+    display:block;width:100%;text-align:left;background:none;border:1px dashed var(--line);
+    color:var(--indigo-light);border-radius:7px;padding:7px 10px;font-size:12.5px;font-weight:600;
+    cursor:pointer;margin-top:6px;font-family:inherit;
+  }
+  .add-row-btn:hover{border-color:var(--indigo-light);background:var(--navy-800);}
+
+  .summary{display:flex;flex-direction:column;gap:12px;}
+  .sum-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+  .sum-head{padding:9px 14px;background:var(--navy-800);border-bottom:1px solid var(--line);font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--indigo-light);}
+  .sum-body{padding:10px 14px;display:flex;flex-direction:column;gap:6px;}
+  .sum-row{display:flex;justify-content:space-between;align-items:center;font-size:13px;gap:8px;}
+  .sum-row span:first-child{color:var(--ink-dim);}
+  .sum-row b{font-variant-numeric:tabular-nums;}
+  .sum-row.total{border-top:1px solid var(--line);padding-top:7px;margin-top:2px;font-size:13.5px;}
+  .sum-row.total b{color:var(--indigo-light);}
+  .sum-row input{width:110px;text-align:right;padding:5px 8px;}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+  .card-head{padding:11px 14px;display:flex;align-items:center;justify-content:space-between;background:var(--navy-800);border-bottom:1px solid var(--line);}
+  .card-head h3{margin:0;font-size:13.5px;font-weight:700;}
+  .card-head .toplam{font-size:13px;color:var(--ink-dim);font-weight:600;}
+  .card-head .toplam b{color:var(--ink);}
+  .card-body{padding:8px 10px;}
+
+  .ist-summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
+  @media (max-width:820px){.ist-summary-grid{grid-template-columns:repeat(2,1fr);}}
+  .ist-charts-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;align-items:stretch;}
+  @media (max-width:900px){.ist-charts-grid{grid-template-columns:1fr;}}
+  .chart-wrap{position:relative;width:100%;height:280px;}
+
+  .toast{
+    position:fixed;bottom:18px;left:50%;transform:translateX(-50%);
+    background:var(--navy-800);border:1px solid var(--line);color:var(--ink);
+    padding:11px 18px;border-radius:8px;font-size:13.5px;box-shadow:0 8px 24px rgba(0,0,0,.4);
+    z-index:700;opacity:0;pointer-events:none;transition:opacity .2s, transform .2s;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(-4px);}
+
+  @media print{
+    body *{visibility:hidden;}
+    #printArea, #printArea *{visibility:visible;}
+    #printArea{display:block;position:absolute;top:0;left:0;width:100%;padding:20px;color:#000;background:#fff;}
+    #printArea table{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:12px;}
+    #printArea th, #printArea td{border:1px solid #999;padding:4px 6px;text-align:left;}
+  }
+  #printArea{display:none;}
+</style>
+</head>
+<body>
+
+<div id="demoBanner">
+  DEMO ORTAMI — girdiğin veriler örnek verilerdir, hiçbir gerçek işletmeye bağlı değildir ve kimseyle paylaşılmaz.
+  <button class="reset-btn" onclick="resetDemo()">Demoyu Sıfırla</button>
+  <a class="back-link" href="https://kebstudio.com.tr/urunlerimiz.html">← KEB Studio'ya dön</a>
+</div>
+
+<header>
+  <div class="brand">
+    <span class="dot"></span>
+    <div>
+      <h1>Kasa Föyü <span class="badge">Demo</span></h1>
+      <span>Günlük kasa takibi — KEB Studio ürünü</span>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button id="tabBtnFoy" class="active" onclick="switchTab('foy')">Föy</button>
+  <button id="tabBtnFis" onclick="switchTab('fis')">Fiş</button>
+  <button id="tabBtnIstatistik" onclick="switchTab('istatistik')">İstatistik</button>
+</nav>
+
+<main>
+
+  <!-- ===================== FÖY TAB ===================== -->
+  <section id="tabFoy">
+    <div class="toolbar">
+      <label>Tarih</label>
+      <input type="date" id="tarihInput" onchange="renderFoy()">
+      <button class="btn ghost" onclick="goToToday()">Bugün</button>
+      <div class="spacer"></div>
+      <span style="font-size:12px;color:var(--ink-dim);">Örnek veriyle önceden dolduruldu — üzerinde özgürce değişiklik yapabilirsin.</span>
+    </div>
+
+    <div class="entry-tabs" id="entryTabsBar"></div>
+
+    <div class="grid">
+      <div id="entryPanel"></div>
+      <div class="summary" id="summaryContainer"></div>
+    </div>
+  </section>
+
+  <!-- ===================== FİŞ TAB ===================== -->
+  <section id="tabFis" class="hidden">
+    <div class="toolbar">
+      <label>Müşteri</label>
+      <input type="text" id="fisCari" placeholder="Örn: DEMO MÜŞTERİ" style="flex:1;min-width:200px;">
+      <div class="spacer"></div>
+      <button class="btn ghost" onclick="clearFis()">Temizle</button>
+      <button class="btn" onclick="printFis()">🖨️ Yazdır</button>
+    </div>
+    <div class="card">
+      <div class="card-head"><h3>Ürünler</h3><span class="toplam">Genel Toplam: <b id="fisGenelToplam">0,00</b></span></div>
+      <div class="card-body">
+        <table>
+          <thead><tr><th>Ürün Adı</th><th style="width:10%">Adet</th><th style="width:16%">Fiyat</th><th style="width:16%">Tutar</th><th class="action-col"></th></tr></thead>
+          <tbody id="fisRowsBody"></tbody>
+        </table>
+        <button class="add-row-btn" onclick="addFisRow()">+ Ürün Ekle</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== İSTATİSTİK TAB ===================== -->
+  <section id="tabIstatistik" class="hidden">
+    <div class="ist-summary-grid" id="istSummaryCards"></div>
+    <div class="ist-charts-grid">
+      <div class="card">
+        <div class="card-head"><h3>Son 14 Gün — Giriş / Çıkış</h3></div>
+        <div class="card-body" style="padding:16px;"><div class="chart-wrap"><canvas id="istLineChart"></canvas></div></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Ödeme Yöntemi Dağılımı</h3></div>
+        <div class="card-body" style="padding:16px;"><div class="chart-wrap"><canvas id="istPieChart"></canvas></div></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="toast" id="toast"></div>
+<div id="printArea"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script>
+/* ============================================================
+   DEMO — tamamen tarayıcıda çalışır, gerçek bir backend'e bağlı değildir.
+   Tüm veriler localStorage'da tutulur, "Demoyu Sıfırla" ile temizlenir.
+   ============================================================ */
+const STORAGE_KEY = 'keb_kasa_demo_v1';
+
+const SECTIONS = {
+  satis: {
+    title:'Satışlar', kodLabel:null, adLabel:'Ürün Adı', color:'#22c55e',
+    methods:[
+      {key:'nakit', label:'Nakit Satış', commission:0},
+      {key:'kart', label:'Kredi Kartı Satış', commission:0.02},
+      {key:'havale', label:'Havale Satış', commission:0},
+      {key:'mailorder', label:'Mail Order Satış', commission:0},
+    ]
+  },
+  tahsilat: {
+    title:'Tahsilatlar', kodLabel:null, adLabel:'Cari Adı', color:'#3b82f6',
+    methods:[
+      {key:'nakit', label:'Nakit Tahsilat', commission:0},
+      {key:'kart', label:'Kredi Kartı Tahsilat', commission:0.02},
+      {key:'havale', label:'Havale Tahsilat', commission:0},
+    ]
+  },
+  odeme: {
+    title:'Ödemeler', kodLabel:null, adLabel:'Cari Adı', color:'#ef4444',
+    methods:[
+      {key:'nakit', label:'Nakit Ödeme', commission:0},
+      {key:'havale', label:'Havale Ödeme', commission:0},
+    ]
+  },
+  masraf: {
+    title:'Masraflar', kodLabel:null, adLabel:'Açıklama', color:'#f59e0b',
+    methods:[
+      {key:'nakit', label:'Nakit Masraf', commission:0},
+      {key:'banka', label:'Banka Masrafı', commission:0},
+    ]
+  }
+};
+
+function seedData(){
+  const today = todayStr();
+  return {
+    devir:{ nakit:4250, banka:12800 },
+    foylar:{
+      [today]:{
+        satis:{ nakit:[{ad:'Fren Balatası (Demo)',tutar:850}], kart:[{ad:'V Kayışı (Demo)',tutar:620}], havale:[], mailorder:[] },
+        tahsilat:{ nakit:[{ad:'Demo Usta',tutar:1200}], kart:[], havale:[{ad:'Örnek Bayi',tutar:3400}] },
+        odeme:{ nakit:[{ad:'Nakliye (Demo)',tutar:300}], havale:[] },
+        masraf:{ nakit:[{ad:'Ofis Malzemesi',tutar:150}], banka:[{ad:'Banka Masrafı',tutar:45}] },
+        kasaMevcut:''
+      }
+    },
+    fis:{ cari:'', rows:[{ad:'Örnek Ürün',adet:2,fiyat:275}] },
+    istHistory: genIstHistory()
+  };
+}
+
+function genIstHistory(){
+  // son 14 gün için örnek giriş/çıkış rakamları
+  const days = [];
+  for (let i=13;i>=0;i--){
+    const d = new Date();
+    d.setDate(d.getDate()-i);
+    const giris = Math.round(1800 + Math.random()*2600);
+    const cikis = Math.round(400 + Math.random()*900);
+    days.push({ tarih: fmtDateISO(d), giris, cikis });
+  }
+  return days;
+}
+
+function loadDB(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch(e){}
+  const seeded = seedData();
+  saveDB(seeded);
+  return seeded;
+}
+function saveDB(db){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+}
+function resetDemo(){
+  if (!confirm('Demo verilerini örnek haline sıfırlamak istediğine emin misin?')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  DB = seedData();
+  saveDB(DB);
+  toast('Demo sıfırlandı ✓');
+  renderFoy();
+  renderFisRows();
+  renderIstatistik();
+}
+
+let DB = loadDB();
+
+function todayStr(){ return fmtDateISO(new Date()); }
+function fmtDateISO(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function fmt(n){ return (Number(n)||0).toLocaleString('tr-TR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function escapeAttr(v){ return String(v??'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+
+function toast(msg){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(()=>el.classList.remove('show'), 2600);
+}
+
+/* ============================================================
+   TABS
+   ============================================================ */
+function switchTab(tab){
+  ['foy','fis','istatistik'].forEach(t=>{
+    document.getElementById('tab'+capitalize(t)).classList.toggle('hidden', t!==tab);
+    document.getElementById('tabBtn'+capitalize(t)).classList.toggle('active', t===tab);
+  });
+  if (tab==='istatistik') renderIstatistik();
+  if (tab==='fis') renderFisRows();
+}
+function capitalize(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+
+function goToToday(){
+  document.getElementById('tarihInput').value = todayStr();
+  renderFoy();
+}
+
+/* ============================================================
+   FÖY — state helpers
+   ============================================================ */
+function currentFoy(){
+  const tarih = document.getElementById('tarihInput').value || todayStr();
+  if (!DB.foylar[tarih]){
+    DB.foylar[tarih] = { satis:{}, tahsilat:{}, odeme:{}, masraf:{}, kasaMevcut:'' };
+    for (const tip of Object.keys(SECTIONS)){
+      for (const m of SECTIONS[tip].methods) DB.foylar[tarih][tip][m.key] = [];
+    }
+  }
+  return DB.foylar[tarih];
+}
+
+let activeEntryTip = 'satis';
+let openMethods = {};
+
+function switchEntryTab(tip){
+  activeEntryTip = tip;
+  document.querySelectorAll('.entry-tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tip===tip));
+  renderEntryPanel();
+}
+
+function entryTipTotal(tip){
+  const foy = currentFoy();
+  let total = 0;
+  for (const m of SECTIONS[tip].methods) total += sumRows(foy[tip][m.key]);
+  return total;
+}
+function sumRows(rows){ return (rows||[]).reduce((a,r)=>a+(Number(r.tutar)||0),0); }
+
+function renderEntryTabs(){
+  const el = document.getElementById('entryTabsBar');
+  el.innerHTML = Object.keys(SECTIONS).map(tip=>{
+    const s = SECTIONS[tip];
+    return `<button class="entry-tab-btn ${activeEntryTip===tip?'active':''}" data-tip="${tip}" onclick="switchEntryTab('${tip}')">
+      <span class="entry-tab-label"><span class="color-dot" style="background:${s.color}"></span>${s.title}</span>
+      <span class="entry-tab-total">${fmt(entryTipTotal(tip))}</span>
+    </button>`;
+  }).join('');
+}
+
+function isMethodOpen(tip,key){
+  const k = tip+'_'+key;
+  if (Object.prototype.hasOwnProperty.call(openMethods,k)) return openMethods[k];
+  return (currentFoy()[tip][key]||[]).length>0;
+}
+function toggleMethod(tip,key){
+  openMethods[tip+'_'+key] = !isMethodOpen(tip,key);
+  renderEntryPanel();
+}
+
+function renderEntryPanel(){
+  const foy = currentFoy();
+  const el = document.getElementById('entryPanel');
+  const methods = SECTIONS[activeEntryTip].methods;
+  el.innerHTML = `<div class="method-list">` + methods.map(m=>{
+    const rows = foy[activeEntryTip][m.key] || [];
+    const total = sumRows(rows);
+    const open = isMethodOpen(activeEntryTip,m.key);
+    let body = '';
+    if (rows.length){
+      body += `<table><thead><tr><th>${SECTIONS[activeEntryTip].adLabel}</th><th style="width:20%">Tutar</th><th class="action-col"></th></tr></thead><tbody>`;
+      rows.forEach((row,idx)=>{
+        body += `<tr class="row-line">
+          <td><input type="text" value="${escapeAttr(row.ad)}" oninput="updateRow('${activeEntryTip}','${m.key}',${idx},'ad',this.value)"></td>
+          <td class="tutar-col"><input type="number" step="0.01" value="${row.tutar}" oninput="updateRow('${activeEntryTip}','${m.key}',${idx},'tutar',this.value)"></td>
+          <td class="action-col"><button class="icon-btn" onclick="removeRow('${activeEntryTip}','${m.key}',${idx})">✕</button></td>
+        </tr>`;
+      });
+      body += `</tbody></table>`;
+    }
+    body += `<button class="add-row-btn" onclick="addRow('${activeEntryTip}','${m.key}')">+ Satır Ekle</button>`;
+    return `<div class="method-row ${open?'open':''}">
+      <div class="method-row-head" onclick="toggleMethod('${activeEntryTip}','${m.key}')">
+        <span class="chevron">▶</span>
+        <span class="color-dot" style="background:${SECTIONS[activeEntryTip].color}"></span>
+        <span class="method-name">${m.label}${m.commission?` <span style="color:var(--ink-dim);font-weight:500;font-size:10.5px;">(demo %${m.commission*100} komisyon)</span>`:''}</span>
+        <span class="method-total ${total?'has-value':''}" id="mtotal-${activeEntryTip}-${m.key}">${fmt(total)}</span>
+      </div>
+      <div class="method-row-body ${open?'':'hidden'}">${body}</div>
+    </div>`;
+  }).join('') + `</div>`;
+}
+
+function addRow(tip,key){
+  currentFoy()[tip][key].push({ad:'',tutar:0});
+  openMethods[tip+'_'+key] = true;
+  saveDB(DB);
+  renderFoy();
+}
+function removeRow(tip,key,idx){
+  currentFoy()[tip][key].splice(idx,1);
+  saveDB(DB);
+  renderFoy();
+}
+function updateRow(tip,key,idx,field,value){
+  const row = currentFoy()[tip][key][idx];
+  row[field] = field==='ad' ? value : (value===''?0:Number(value));
+  saveDB(DB);
+  renderEntryTabs();
+  renderSummary();
+  const mEl = document.getElementById(`mtotal-${tip}-${key}`);
+  if (mEl){
+    const t = sumRows(currentFoy()[tip][key]);
+    mEl.textContent = fmt(t);
+    mEl.classList.toggle('has-value', !!t);
+  }
+}
+
+function computeSummary(){
+  const foy = currentFoy();
+  const nakitGiris = sumRows(foy.satis.nakit) + sumRows(foy.tahsilat.nakit);
+  const nakitCikis = sumRows(foy.odeme.nakit) + sumRows(foy.masraf.nakit);
+  const nakitDurum = Number(DB.devir.nakit||0) + nakitGiris - nakitCikis;
+
+  const kartSatis = sumRows(foy.satis.kart) * (1-0.02);
+  const kartTahsilat = sumRows(foy.tahsilat.kart) * (1-0.02);
+  const krediToplam = kartSatis + kartTahsilat;
+
+  const havaleGiren = sumRows(foy.satis.havale) + sumRows(foy.tahsilat.havale);
+  const havaleCikan = sumRows(foy.odeme.havale);
+  const bankaMasraf = sumRows(foy.masraf.banka);
+  const bankaDurum = Number(DB.devir.banka||0) + havaleGiren - havaleCikan - bankaMasraf;
+
+  const mailorder = sumRows(foy.satis.mailorder);
+
+  const kasaMevcut = foy.kasaMevcut === '' ? null : Number(foy.kasaMevcut);
+  const fark = kasaMevcut===null ? null : (kasaMevcut - nakitDurum);
+
+  return { nakitGiris, nakitCikis, nakitDurum, kartSatis, kartTahsilat, krediToplam, havaleGiren, havaleCikan, bankaMasraf, bankaDurum, mailorder, kasaMevcut, fark };
+}
+
+function renderSummary(){
+  const r = computeSummary();
+  const foy = currentFoy();
+  const farkClass = r.fark===null ? '' : (Math.abs(r.fark)<0.01 ? 'style="color:var(--green)"' : 'style="color:var(--red)"');
+  document.getElementById('summaryContainer').innerHTML = `
+    <div class="sum-card">
+      <div class="sum-head">Nakit Kasa</div>
+      <div class="sum-body">
+        <div class="sum-row"><span>Devir</span><input type="number" step="0.01" value="${DB.devir.nakit}" oninput="DB.devir.nakit=Number(this.value)||0; saveDB(DB); renderSummary();"></div>
+        <div class="sum-row"><span>Giriş</span><b>${fmt(r.nakitGiris)}</b></div>
+        <div class="sum-row"><span>Çıkış</span><b>${fmt(r.nakitCikis)}</b></div>
+        <div class="sum-row total"><span>Durum</span><b>${fmt(r.nakitDurum)}</b></div>
+        <div class="sum-row"><span>Kasa Mevcut (sayım)</span><input type="number" step="0.01" value="${foy.kasaMevcut}" oninput="currentFoy().kasaMevcut=this.value===''?'':Number(this.value); saveDB(DB); renderSummary();"></div>
+        <div class="sum-row total"><span>Fark</span><b ${farkClass}>${r.fark===null?'—':fmt(r.fark)}</b></div>
+      </div>
+    </div>
+    <div class="sum-card">
+      <div class="sum-head">Kredi Kasa</div>
+      <div class="sum-body">
+        <div class="sum-row"><span>Satış (net)</span><b>${fmt(r.kartSatis)}</b></div>
+        <div class="sum-row"><span>Tahsilat (net)</span><b>${fmt(r.kartTahsilat)}</b></div>
+        <div class="sum-row total"><span>Toplam</span><b>${fmt(r.krediToplam)}</b></div>
+      </div>
+    </div>
+    <div class="sum-card">
+      <div class="sum-head">Banka / Havale</div>
+      <div class="sum-body">
+        <div class="sum-row"><span>Devir</span><input type="number" step="0.01" value="${DB.devir.banka}" oninput="DB.devir.banka=Number(this.value)||0; saveDB(DB); renderSummary();"></div>
+        <div class="sum-row"><span>Gelen Havale</span><b>${fmt(r.havaleGiren)}</b></div>
+        <div class="sum-row"><span>Giden Havale</span><b>${fmt(r.havaleCikan)}</b></div>
+        <div class="sum-row"><span>Banka Masrafı</span><b>${fmt(r.bankaMasraf)}</b></div>
+        <div class="sum-row total"><span>Durum</span><b>${fmt(r.bankaDurum)}</b></div>
+      </div>
+    </div>
+    <div class="sum-card">
+      <div class="sum-head">Mail Order</div>
+      <div class="sum-body">
+        <div class="sum-row total"><span>Toplam</span><b>${fmt(r.mailorder)}</b></div>
+      </div>
+    </div>
+  `;
+}
+
+function renderFoy(){
+  renderEntryTabs();
+  renderEntryPanel();
+  renderSummary();
+}
+
+/* ============================================================
+   FİŞ
+   ============================================================ */
+function fisRowTutar(row){ return (Number(row.fiyat)||0)*(Number(row.adet)||0); }
+function fisTotals(){ return DB.fis.rows.reduce((a,r)=>a+fisRowTutar(r),0); }
+
+function renderFisRows(){
+  document.getElementById('fisCari').value = DB.fis.cari || '';
+  const tbody = document.getElementById('fisRowsBody');
+  tbody.innerHTML = DB.fis.rows.map((row,idx)=>`
+    <tr class="row-line">
+      <td><input type="text" value="${escapeAttr(row.ad)}" oninput="updateFisRow(${idx},'ad',this.value)"></td>
+      <td class="tutar-col"><input type="number" step="1" value="${row.adet}" oninput="updateFisRow(${idx},'adet',this.value)"></td>
+      <td class="tutar-col"><input type="number" step="0.01" value="${row.fiyat}" oninput="updateFisRow(${idx},'fiyat',this.value)"></td>
+      <td class="tutar-col"><span id="fis-tutar-${idx}">${fmt(fisRowTutar(row))}</span></td>
+      <td class="action-col"><button class="icon-btn" onclick="removeFisRow(${idx})">✕</button></td>
+    </tr>
+  `).join('');
+  document.getElementById('fisGenelToplam').textContent = fmt(fisTotals());
+}
+function addFisRow(){ DB.fis.rows.push({ad:'',adet:1,fiyat:0}); saveDB(DB); renderFisRows(); }
+function removeFisRow(idx){ DB.fis.rows.splice(idx,1); saveDB(DB); renderFisRows(); }
+function updateFisRow(idx,field,value){
+  const row = DB.fis.rows[idx];
+  row[field] = field==='ad' ? value : (value===''?0:Number(value));
+  saveDB(DB);
+  const totalEl = document.getElementById(`fis-tutar-${idx}`);
+  if (totalEl) totalEl.textContent = fmt(fisRowTutar(row));
+  document.getElementById('fisGenelToplam').textContent = fmt(fisTotals());
+}
+function clearFis(){
+  if (DB.fis.rows.length && !confirm('Fişi temizlemek istediğine emin misin?')) return;
+  DB.fis = { cari:'', rows:[] };
+  saveDB(DB);
+  renderFisRows();
+}
+document.addEventListener('input', (e)=>{
+  if (e.target.id === 'fisCari'){ DB.fis.cari = e.target.value; saveDB(DB); }
+});
+
+function printFis(){
+  if (!DB.fis.rows.length){ toast('Fişte ürün yok'); return; }
+  let html = `<h2>Kasa Föyü — Demo Fiş</h2><p>${escapeAttr(DB.fis.cari||'Müşteri belirtilmedi')} — ${new Date().toLocaleString('tr-TR')}</p>`;
+  html += `<table><thead><tr><th>Ürün</th><th>Adet</th><th>Fiyat</th><th>Tutar</th></tr></thead><tbody>`;
+  for (const row of DB.fis.rows){
+    html += `<tr><td>${escapeAttr(row.ad)}</td><td>${row.adet}</td><td>${fmt(row.fiyat)}</td><td>${fmt(fisRowTutar(row))}</td></tr>`;
+  }
+  html += `</tbody></table><p><b>Genel Toplam: ${fmt(fisTotals())}</b></p>`;
+  document.getElementById('printArea').innerHTML = html;
+  window.print();
+}
+
+/* ============================================================
+   İSTATİSTİK
+   ============================================================ */
+let lineChart=null, pieChart=null;
+function renderIstatistik(){
+  const days = DB.istHistory;
+  const toplamGiris = days.reduce((a,d)=>a+d.giris,0);
+  const toplamCikis = days.reduce((a,d)=>a+d.cikis,0);
+  const net = toplamGiris - toplamCikis;
+
+  document.getElementById('istSummaryCards').innerHTML = [
+    ['Toplam Giriş (14 gün)', toplamGiris, 'var(--green)'],
+    ['Toplam Çıkış (14 gün)', toplamCikis, 'var(--red)'],
+    ['Net', net, net>=0?'var(--green)':'var(--red)'],
+    ['Günlük Ortalama', toplamGiris/days.length, null]
+  ].map(([label,val,color])=>`
+    <div class="sum-card"><div class="sum-body" style="padding:14px;">
+      <div style="font-size:11px;color:var(--ink-dim);text-transform:uppercase;font-weight:700;margin-bottom:6px;">${label}</div>
+      <div style="font-size:19px;font-weight:800;${color?`color:${color};`:''}">${fmt(val)}</div>
+    </div></div>
+  `).join('');
+
+  const lineCtx = document.getElementById('istLineChart').getContext('2d');
+  if (lineChart) lineChart.destroy();
+  lineChart = new Chart(lineCtx, {
+    type:'line',
+    data:{
+      labels: days.map(d=>d.tarih.slice(5)),
+      datasets:[
+        {label:'Giriş', data:days.map(d=>d.giris), borderColor:'#22c55e', backgroundColor:'rgba(34,197,94,.12)', tension:.25, fill:true},
+        {label:'Çıkış', data:days.map(d=>d.cikis), borderColor:'#ef4444', backgroundColor:'rgba(239,68,68,.10)', tension:.25, fill:true}
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#eef0ff'}}},
+      scales:{
+        x:{ticks:{color:'#a8b0d8'},grid:{color:'rgba(128,128,128,.15)'}},
+        y:{ticks:{color:'#a8b0d8'},grid:{color:'rgba(128,128,128,.15)'}}
+      }
+    }
+  });
+
+  const foy = currentFoy();
+  const groupTotals = {
+    'Nakit': sumRows(foy.satis.nakit)+sumRows(foy.tahsilat.nakit),
+    'Kredi Kartı': sumRows(foy.satis.kart)+sumRows(foy.tahsilat.kart),
+    'Havale': sumRows(foy.satis.havale)+sumRows(foy.tahsilat.havale),
+    'Mail Order': sumRows(foy.satis.mailorder)
+  };
+  const pieCtx = document.getElementById('istPieChart').getContext('2d');
+  if (pieChart) pieChart.destroy();
+  pieChart = new Chart(pieCtx, {
+    type:'doughnut',
+    data:{
+      labels:Object.keys(groupTotals),
+      datasets:[{data:Object.values(groupTotals), backgroundColor:['#22c55e','#f59e0b','#3b82f6','#a855f7']}]
+    },
+    options:{responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'bottom',labels:{color:'#eef0ff'}}}}
+  });
+}
+
+/* ============================================================
+   BOOT
+   ============================================================ */
+document.getElementById('tarihInput').value = todayStr();
+renderFoy();
+</script>
+
+</body>
+</html>
