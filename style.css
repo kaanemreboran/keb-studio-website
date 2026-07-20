@@ -615,21 +615,19 @@
     text-overflow:ellipsis;
     white-space:nowrap;
   }
-  /* Dışarıdaki siyah tarayıcı penceresi (Kapsayıcı) */
-.product-frame-viewport {
+  .product-frame-viewport {
     width: 100%;
-    max-width: 960px; /* Ekranda kaplayacağı ideal maksimum genişlik */
-    height: 540px; /* 960px'in kusursuz 16:9 karşılığı */
+    max-width: 1344px; /* Siyah pencerenin ekrandaki maksimum boyutunu büyüttük */
+    height: 756px; /* 16:9 oranını bozmadan yeni yüksekliği ayarladık */
     margin: 0 auto;
     position: relative;
     overflow: hidden;
     background: #0f1530;
-    border-radius: 0 0 8px 8px; /* Alt kısımlar için hafif kavis (opsiyonel) */
+    border-radius: 0 0 8px 8px;
 }
 
-/* İçerideki HTML sayfan */
 .product-frame-viewport iframe {
-    width: 1920px; /* Sayfanın tam masaüstü (Full HD) genişliği */
+    width: 1920px;
     height: 1080px;
     border: none;
     position: absolute;
@@ -637,8 +635,8 @@
     left: 0;
     transform-origin: 0 0;
     
-    /* 960px dış genişlik / 1920px iç genişlik = Tam 0.5 katı küçültme oranı */
-    transform: scale(0.5); 
+    /* 1344 / 1920 = 0.7 | Yazılar artık çok daha net ve büyük okunacak */
+    transform: scale(0.7); 
 }
   .product-note{
     margin-top:var(--sp-3);
