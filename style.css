@@ -615,28 +615,32 @@
     text-overflow:ellipsis;
     white-space:nowrap;
   }
-  .product-frame-viewport {
-    width: 638px;
-    max-width: 100%;
-    aspect-ratio: 1100 / 1050; 
+  /* Dışarıdaki siyah tarayıcı penceresi (Kapsayıcı) */
+.product-frame-viewport {
+    width: 100%; /* Siyah pencerenin bulunduğu alanı tam kaplamasını sağlar */
+    max-width: 1000px; /* Ekranda çok fazla büyümesini engellemek için bir sınır */
+    aspect-ratio: 16 / 9; /* Geniş ekran formatını kilitler */
     margin: 0 auto;
     overflow: hidden;
     position: relative;
-    background: #0f1530;
+    background: #1e1e2d; /* Görseldeki arkaplan tonuyla uyumlu */
     container-type: inline-size; 
 }
 
+/* İçerideki Kasa Föyü ekranı */
 .product-frame-viewport iframe {
-    width: 1100px;
-    height: 1050px;
+    /* Genişliği 1440px yaparak içeriğin sağdan kesilmesini engelliyoruz */
+    width: 1440px; 
+    height: 900px;
     border: none;
     display: block;
-    background: #0f1530;
     position: absolute;
     top: 0; 
     left: 0;
     transform-origin: top left;
-    transform: scale(calc(100cqi / 1100)); 
+    
+    /* 1440px'lik dev ekranı, dışarıdaki siyah pencerenin içine tam sığacak şekilde otomatik küçültür */
+    transform: scale(calc(100cqi / 1440)); 
 }
   .product-note{
     margin-top:var(--sp-3);
