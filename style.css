@@ -103,7 +103,7 @@
   }
   .nav .wrap{
     display:flex;align-items:center;justify-content:space-between;
-    height:162px;
+    height:105px;
   }
   .logo{
     display:flex;align-items:center;gap:10px;
@@ -113,6 +113,7 @@
     letter-spacing:0.08em;
     color:var(--paper);
     text-decoration:none;
+    align-self:flex-start;
   }
   .logo .dot{width:9px;height:9px;border-radius:2px;background:var(--amber);}
   .logo img{height:150px;width:auto;border-radius:3px;display:block;}
