@@ -9,482 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-
-  /* ============ TOKENS ============ */
-  :root{
-    /* color */
-    --graphite:#17191C;
-    --panel:#1F2226;
-    --panel-2:#25282D;
-    --paper:#F3F1EC;
-    --ink:#1A1B1E;
-    --ink-soft:#4B4D51;
-    --amber:#E8912B;
-    --amber-ink:#9C5712;
-    --line-dark:rgba(243,241,236,0.12);
-    --line-light:rgba(26,27,30,0.14);
-    --ok:#7FA88C;
-
-    /* type */
-    --display:'Big Shoulders Display', sans-serif;
-    --body:'IBM Plex Sans', sans-serif;
-    --mono:'IBM Plex Mono', monospace;
-
-    /* space scale (8px base) */
-    --sp-1:8px;
-    --sp-2:16px;
-    --sp-3:24px;
-    --sp-4:32px;
-    --sp-5:48px;
-    --sp-6:64px;
-    --sp-7:96px;
-  }
-
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    margin:0;
-    background:var(--paper);
-    color:var(--ink);
-    font-family:var(--body);
-    font-size:16px;
-    line-height:1.6;
-    -webkit-font-smoothing:antialiased;
-  }
-  img,svg{display:block;max-width:100%;}
-  a{color:inherit;}
-  h1,h2,h3{font-family:var(--display);margin:0;line-height:0.95;letter-spacing:-0.01em;}
-  p{margin:0;}
-  .wrap{max-width:1180px;margin:0 auto;padding:0 var(--sp-3);}
-  .eyebrow{
-    font-family:var(--mono);
-    font-size:12px;
-    letter-spacing:0.14em;
-    text-transform:uppercase;
-    display:inline-flex;
-    align-items:center;
-    gap:var(--sp-1);
-  }
-  .eyebrow::before{
-    content:"";
-    width:6px;height:6px;border-radius:50%;
-    background:var(--amber);
-    flex:none;
-  }
-  .on-dark .eyebrow{color:var(--amber);}
-  .on-light .eyebrow{color:var(--amber-ink);}
-
-  button{font-family:inherit;cursor:pointer;}
-
-  .btn{
-    display:inline-flex;
-    align-items:center;
-    gap:var(--sp-1);
-    font-family:var(--mono);
-    font-size:14px;
-    letter-spacing:0.03em;
-    text-decoration:none;
-    padding:14px 24px;
-    border-radius:3px;
-    border:1px solid transparent;
-    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
-  }
-  .btn-primary{
-    background:var(--amber);
-    color:var(--graphite);
-    font-weight:600;
-    box-shadow:0 0 0 rgba(232,145,43,0);
-  }
-  .btn-primary:hover{
-    transform:translateY(-2px);
-    box-shadow:0 10px 24px rgba(232,145,43,0.28);
-    background:#f3a13c;
-  }
-  .btn-ghost{
-    border-color:var(--line-dark);
-    color:var(--paper);
-  }
-  .btn-ghost:hover{border-color:var(--amber); color:var(--amber);}
-
-  /* ============ NAV ============ */
-  .nav{
-    position:sticky;top:0;z-index:50;
-    background:rgba(23,25,28,0.92);
-    backdrop-filter:blur(6px);
-    border-bottom:1px solid var(--line-dark);
-  }
-  .nav .wrap{
-    display:flex;align-items:center;justify-content:space-between;
-    height:96px;
-  }
-  .logo{
-    display:flex;align-items:center;gap:10px;
-    font-family:var(--mono);
-    font-weight:500;
-    font-size:15px;
-    letter-spacing:0.08em;
-    color:var(--paper);
-    text-decoration:none;
-  }
-  .logo .dot{width:9px;height:9px;border-radius:2px;background:var(--amber);}
-  .logo img{height:130px;width:auto;border-radius:3px;display:block;}
-  .nav-links{
-    display:none;
-    gap:var(--sp-4);
-    list-style:none;
-    margin:0;padding:0;
-    font-family:var(--mono);
-    font-size:13px;
-    letter-spacing:0.04em;
-  }
-  .nav-links a{
-    color:rgba(243,241,236,0.7);
-    text-decoration:none;
-    transition:color .15s ease;
-  }
-  .nav-links a:hover{color:var(--amber);}
-  .nav-cta{display:none;}
-  .nav-toggle{
-    background:none;border:1px solid var(--line-dark);border-radius:3px;
-    width:40px;height:40px;
-    display:flex;align-items:center;justify-content:center;
-  }
-  .nav-toggle svg{stroke:var(--paper);}
-  .mobile-menu{
-    display:none;
-    flex-direction:column;
-    gap:var(--sp-2);
-    padding:var(--sp-3);
-    background:var(--graphite);
-    border-bottom:1px solid var(--line-dark);
-  }
-  .mobile-menu.open{display:flex;}
-  .mobile-menu a{
-    color:var(--paper);text-decoration:none;
-    font-family:var(--mono);font-size:14px;letter-spacing:0.04em;
-    padding:var(--sp-1) 0;
-  }
-
-  @media(min-width:800px){
-    .nav-links{display:flex;}
-    .nav-cta{display:inline-flex;}
-    .nav-toggle{display:none;}
-    .mobile-menu{display:none !important;}
-  }
-
-  /* ============ HERO ============ */
-  .hero{
-    background:var(--graphite);
-    color:var(--paper);
-    padding:var(--sp-6) 0 var(--sp-7);
-    border-bottom:1px solid var(--line-dark);
-  }
-  .hero .wrap{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:var(--sp-6);
-  }
-  .hero-copy .eyebrow{margin-bottom:var(--sp-3);}
-  .hero h1{
-    font-size:clamp(34px,7vw,64px);
-    font-weight:800;
-    text-transform:uppercase;
-    max-width:15ch;
-  }
-  .hero-sub{
-    margin-top:var(--sp-3);
-    max-width:46ch;
-    font-size:17px;
-    color:rgba(243,241,236,0.78);
-  }
-  .hero-actions{
-    margin-top:var(--sp-4);
-    display:flex;
-    flex-wrap:wrap;
-    align-items:center;
-    gap:var(--sp-3);
-  }
-  .hero-actions .link-scroll{
-    font-family:var(--mono);
-    font-size:14px;
-    color:rgba(243,241,236,0.65);
-    text-decoration:none;
-    border-bottom:1px solid var(--line-dark);
-    padding-bottom:2px;
-  }
-  .hero-actions .link-scroll:hover{color:var(--amber);border-color:var(--amber);}
-
-  /* control-panel signature */
-  .panel{
-    background:var(--panel);
-    border:1px solid var(--line-dark);
-    border-radius:6px;
-    padding:var(--sp-4);
-    box-shadow:0 24px 60px rgba(0,0,0,0.35);
-  }
-  .panel-head{
-    display:flex;justify-content:space-between;align-items:center;
-    font-family:var(--mono);font-size:11px;letter-spacing:0.1em;
-    color:rgba(243,241,236,0.45);
-    text-transform:uppercase;
-    margin-bottom:var(--sp-3);
-    padding-bottom:var(--sp-2);
-    border-bottom:1px solid var(--line-dark);
-  }
-  .panel-row{
-    display:flex;align-items:center;justify-content:space-between;
-    padding:var(--sp-2) 0;
-    border-bottom:1px solid var(--line-dark);
-    font-family:var(--mono);
-    font-size:13px;
-  }
-  .panel-row:last-child{border-bottom:none;}
-  .panel-row .label{
-    display:flex;align-items:center;gap:10px;
-    color:var(--paper);
-    letter-spacing:0.02em;
-  }
-  .panel-row .led{
-    width:8px;height:8px;border-radius:50%;
-    background:var(--amber);
-    opacity:0.25;
-    transition:opacity .5s ease, box-shadow .5s ease;
-    flex:none;
-  }
-  .panel.lit .panel-row .led{
-    opacity:1;
-    box-shadow:0 0 8px rgba(232,145,43,0.75);
-  }
-  .panel-row .status{color:var(--ok);font-size:12px;}
-  .panel-caption{
-    margin-top:var(--sp-3);
-    font-size:12.5px;
-    color:rgba(243,241,236,0.45);
-    font-family:var(--mono);
-  }
-
-  @media(min-width:900px){
-    .hero .wrap{grid-template-columns:1.35fr 1fr;align-items:center;}
-  }
-
-  /* ============ TRUST STRIP ============ */
-  .trust{
-    background:var(--paper);
-    padding:var(--sp-4) 0;
-    border-bottom:1px solid var(--line-light);
-  }
-  .trust .wrap{
-    display:flex;flex-direction:column;gap:var(--sp-2);
-  }
-  .trust-label{
-    font-family:var(--mono);font-size:12px;letter-spacing:0.1em;
-    text-transform:uppercase;color:var(--ink-soft);
-  }
-  .trust-logos{
-    display:flex;flex-wrap:wrap;gap:var(--sp-5);
-    font-family:var(--display);
-    font-weight:800;
-    font-size:22px;
-    text-transform:uppercase;
-    color:var(--ink);
-  }
-  @media(min-width:800px){
-    .trust .wrap{flex-direction:row;align-items:center;justify-content:space-between;}
-  }
-
-  /* ============ SECTION HEADS ============ */
-  .section{padding:var(--sp-7) 0;}
-  .section-head{
-    max-width:56ch;
-    margin-bottom:var(--sp-6);
-    opacity:0;
-    transform:translateY(14px);
-    transition:opacity .6s ease, transform .6s ease;
-  }
-  .section-head.in-view{opacity:1;transform:translateY(0);}
-  .section-head .eyebrow{margin-bottom:var(--sp-2);}
-  .section-head h2{
-    font-size:clamp(28px,4.4vw,42px);
-    font-weight:800;
-    text-transform:uppercase;
-  }
-
-  /* ============ SERVICES ============ */
-  .services-list{display:flex;flex-direction:column;gap:var(--sp-3);}
-  .service-row{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:var(--sp-3);
-    padding:var(--sp-4);
-    border:1px solid var(--line-light);
-    border-radius:6px;
-    background:#fff;
-  }
-  .service-row:nth-child(2){
-    background:var(--ink);
-    color:var(--paper);
-    border-color:var(--ink);
-  }
-  .service-row:nth-child(2) .service-desc{color:rgba(243,241,236,0.75);}
-  .service-row:nth-child(2) .example{border-color:var(--line-dark);color:rgba(243,241,236,0.6);}
-  .service-icon{
-    width:44px;height:44px;
-    flex:none;
-    color:var(--amber-ink);
-  }
-  .service-row:nth-child(2) .service-icon{color:var(--amber);}
-  .service-title{
-    font-family:var(--display);
-    font-weight:800;
-    font-size:26px;
-    text-transform:uppercase;
-    margin-top:var(--sp-2);
-  }
-  .service-desc{
-    margin-top:var(--sp-1);
-    max-width:52ch;
-    color:var(--ink-soft);
-    font-size:15.5px;
-  }
-  .example{
-    margin-top:var(--sp-3);
-    display:inline-block;
-    font-family:var(--mono);
-    font-size:12.5px;
-    padding:8px 12px;
-    border:1px solid var(--line-light);
-    border-radius:3px;
-    color:var(--ink-soft);
-  }
-  @media(min-width:760px){
-    .service-row{grid-template-columns:44px 1fr;align-items:start;padding:var(--sp-5);}
-    .service-row .service-icon{grid-row:1/3;}
-  }
-
-  /* ============ WORK ============ */
-  .work-item{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:var(--sp-4);
-    padding:var(--sp-5) 0;
-    border-top:1px solid var(--line-light);
-  }
-  .work-item:last-child{border-bottom:1px solid var(--line-light);}
-  .work-text .eyebrow{margin-bottom:var(--sp-2);}
-  .work-title{
-    font-family:var(--display);
-    font-weight:800;
-    font-size:clamp(24px,3.4vw,32px);
-    text-transform:uppercase;
-  }
-  .work-desc{margin-top:var(--sp-2);max-width:50ch;color:var(--ink-soft);font-size:15.5px;}
-
-  /* schematic UI mockups */
-  .mock{
-    background:var(--graphite);
-    border-radius:6px;
-    padding:var(--sp-3);
-    border:1px solid var(--line-dark);
-  }
-  .mock-bar{height:8px;border-radius:2px;background:var(--panel-2);margin-bottom:8px;}
-  .mock-row{display:flex;gap:8px;margin-bottom:8px;}
-  .mock-row .cell{height:14px;border-radius:2px;background:var(--panel-2);flex:1;}
-  .mock-row .cell.amber{background:rgba(232,145,43,0.55);flex:0 0 18%;}
-  .mock-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
-  .mock-grid .tile{aspect-ratio:1;border-radius:4px;background:var(--panel-2);}
-  .mock-grid .tile:nth-child(2){background:rgba(232,145,43,0.35);}
-
-  @media(min-width:860px){
-    .work-item{grid-template-columns:1fr 1fr;align-items:center;}
-    .work-item:nth-child(even) .work-text{order:2;}
-  }
-
-  /* ============ ABOUT ============ */
-  .about{background:var(--ink);color:var(--paper);}
-  .about-quote{
-    max-width:64ch;
-    border-left:3px solid var(--amber);
-    padding-left:var(--sp-4);
-  }
-  .about-quote p{
-    font-size:clamp(19px,2.6vw,24px);
-    line-height:1.5;
-    color:rgba(243,241,236,0.9);
-  }
-  .about-role{
-    margin-top:var(--sp-3);
-    font-family:var(--mono);
-    font-size:13px;
-    color:rgba(243,241,236,0.5);
-    letter-spacing:0.04em;
-  }
-
-  /* ============ CONTACT ============ */
-  .contact{
-    background:var(--amber);
-    color:var(--graphite);
-  }
-  .contact h2{
-    font-size:clamp(32px,6vw,58px);
-    font-weight:800;
-    text-transform:uppercase;
-    max-width:14ch;
-  }
-  .contact-sub{
-    margin-top:var(--sp-2);
-    max-width:44ch;
-    font-size:17px;
-    color:rgba(23,25,28,0.75);
-  }
-  .contact-actions{margin-top:var(--sp-4);display:flex;flex-wrap:wrap;gap:var(--sp-2);}
-  .btn-outline-dark{
-    background:transparent;
-    color:var(--graphite);
-    border:1.5px solid var(--graphite);
-  }
-  .btn-outline-dark:hover{background:var(--graphite);color:var(--paper);}
-  .btn-dark{
-    background:var(--graphite);
-    color:var(--paper);
-    font-family:var(--mono);
-    font-weight:500;
-    padding:14px 24px;
-    border-radius:3px;
-    text-decoration:none;
-    display:inline-flex;
-    gap:8px;align-items:center;
-    transition:transform .15s ease, box-shadow .15s ease;
-  }
-  .btn-dark:hover{
-    transform:translateY(-2px);
-    box-shadow:0 10px 24px rgba(23,25,28,0.35);
-  }
-
-  /* ============ FOOTER ============ */
-  footer{background:var(--graphite);color:rgba(243,241,236,0.55);padding:var(--sp-5) 0;}
-  .footer-wrap{
-    display:flex;flex-direction:column;gap:var(--sp-3);
-    font-family:var(--mono);font-size:13px;
-  }
-  .footer-links{display:flex;flex-wrap:wrap;gap:var(--sp-3);}
-  .footer-links a{color:rgba(243,241,236,0.55);text-decoration:none;}
-  .footer-links a:hover{color:var(--amber);}
-  .footer-bottom{
-    display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(--sp-2);
-    padding-top:var(--sp-3);
-    border-top:1px solid var(--line-dark);
-  }
-
-  @media(min-width:800px){
-    .footer-wrap{flex-direction:row;justify-content:space-between;align-items:flex-start;}
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    html{scroll-behavior:auto;}
-    *{animation:none !important;transition:none !important;}
-  }
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -493,6 +18,7 @@
     <a href="#" class="logo"><img src="keb-studio-logo-transparent.png" alt="KEB Studio"></a>
     <ul class="nav-links">
       <li><a href="#hizmetler">Hizmetler</a></li>
+      <li><a href="#urunlerimiz">Ürünlerimiz</a></li>
       <li><a href="#isler">İşler</a></li>
       <li><a href="#hakkinda">Hakkında</a></li>
       <li><a href="#iletisim">İletişim</a></li>
@@ -504,6 +30,7 @@
   </div>
   <nav class="mobile-menu" id="mobileMenu">
     <a href="#hizmetler">Hizmetler</a>
+    <a href="#urunlerimiz">Ürünlerimiz</a>
     <a href="#isler">İşler</a>
     <a href="#hakkinda">Hakkında</a>
     <a href="#iletisim">İletişim</a>
@@ -590,6 +117,7 @@
         <span class="eyebrow">Çukurova Otomotiv</span>
         <h3 class="work-title">Bayi Portalı</h3>
         <p class="work-desc">Bayilerle sipariş ve stok takibi telefon ve excel üzerinden yürüyordu. Bayilerin kendi hesaplarından sipariş girip stok görebildiği bir B2B portal kurduk.</p>
+        <a href="cukurova-otomotiv.html" class="link-scroll" style="color:var(--amber-ink);border-color:var(--line-light);margin-top:var(--sp-3);display:inline-block;">Vaka çalışmasını incele →</a>
       </div>
       <div class="mock">
         <div class="mock-bar" style="width:40%;"></div>
@@ -604,6 +132,7 @@
         <span class="eyebrow">Spraybox</span>
         <h3 class="work-title">B2B/B2C E-Ticaret</h3>
         <p class="work-desc">Oto kimyasalları markası Spraybox için hem bayilere hem son kullanıcıya satış yapabilen bir e-ticaret sitesi geliştirdik.</p>
+        <a href="spraybox.html" class="link-scroll" style="color:var(--amber-ink);border-color:var(--line-light);margin-top:var(--sp-3);display:inline-block;">Vaka çalışmasını incele →</a>
       </div>
       <div class="mock">
         <div class="mock-bar" style="width:30%;"></div>
@@ -618,6 +147,7 @@
         <span class="eyebrow">Kasa Föyü</span>
         <h3 class="work-title">Günlük Kasa Uygulaması</h3>
         <p class="work-desc">Çukurova Otomotiv'in günlük kasa kaydını kağıt föyden dijitale taşıyan bir uygulama üzerinde çalışıyoruz — şu an geliştirme aşamasında.</p>
+        <a href="kasa-foyu.html" class="link-scroll" style="color:var(--amber-ink);border-color:var(--line-light);margin-top:var(--sp-3);display:inline-block;">Vaka çalışmasını incele →</a>
       </div>
       <div class="mock">
         <div class="mock-bar" style="width:50%;"></div>
@@ -626,6 +156,24 @@
         <div class="mock-row"><div class="cell"></div><div class="cell amber"></div></div>
       </div>
     </div>
+  </div>
+</section>
+
+<section class="section on-light" id="urunlerimiz">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Ürünlerimiz</span>
+      <h2>Kasa Föyü — canlı demo</h2>
+    </div>
+    <p style="max-width:60ch;color:var(--ink-soft);margin-bottom:var(--sp-4);">Kağıt föyün yerini alan günlük kasa takip uygulaması. Aşağıdaki pencere gerçek uygulamanın çalışan bir demosu — dilediğin gibi veri girip deneyebilirsin.</p>
+    <div class="product-frame">
+      <div class="product-frame-bar">
+        <div class="product-frame-dots"><span></span><span></span><span></span></div>
+        <div class="product-frame-url">kasa-foyu-demo.html</div>
+      </div>
+      <iframe src="kasa-foyu-demo.html" title="Kasa Föyü canlı demo" loading="lazy"></iframe>
+    </div>
+    <p class="product-note">Demo örnek verilerle çalışır ve yalnızca tarayıcında tutulur — gerçek bir işletmeye bağlı değildir. <a href="kasa-foyu-demo.html" target="_blank" rel="noopener" style="color:var(--amber-ink);">Tam ekranda aç →</a></p>
   </div>
 </section>
 
@@ -657,6 +205,7 @@
     </div>
     <div class="footer-links">
       <a href="#hizmetler">Hizmetler</a>
+      <a href="#urunlerimiz">Ürünlerimiz</a>
       <a href="#isler">İşler</a>
       <a href="#hakkinda">Hakkında</a>
       <a href="mailto:info@kebstudio.com.tr">İletişim</a>
